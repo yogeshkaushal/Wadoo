@@ -7,10 +7,14 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const ExploreScreen = () => {
+const LoginScreen = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.conatiner} />
+      <View style={styles.conatiner}>
+        <TouchableOpacity style={styles.buttonStyle}>
+          <Text style={styles.textStyle}>Login</Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   );
 };
@@ -25,8 +29,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   textStyle: {
-    fontSize: 30,
+    fontSize: 16,
     fontWeight: 'bold',
+    color:"white"
   },
   buttonStyle: {
     backgroundColor: 'red',
@@ -40,4 +45,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExploreScreen;
+export default LoginScreen;
