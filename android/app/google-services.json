@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "180253142946",
+    "project_id": "wadoo-95934",
+    "storage_bucket": "wadoo-95934.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:180253142946:android:a92bd026338cf19ce48cfb",
+        "android_client_info": {
+          "package_name": "com.wadoo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "180253142946-phn8p4mmekf4tcvc1r6v2vn6k2e2fl7c.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wadoo",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "180253142946-vft7haau56tfhii9kql49sca1e0jhuib.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDNmtgIphSi7etsi_67sDTCfFtAJBZfaE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "180253142946-vft7haau56tfhii9kql49sca1e0jhuib.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

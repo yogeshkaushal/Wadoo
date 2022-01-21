@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   textStyle: {
     fontSize: 16,
     fontWeight: 'bold',
-    color:"white"
+    color: 'white',
   },
   buttonStyle: {
     backgroundColor: 'red',
