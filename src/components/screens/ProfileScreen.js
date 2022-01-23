@@ -6,47 +6,37 @@ import {
     Text,
     TouchableOpacity,
 } from 'react-native';
-import {
-    GoogleSignin,
-    GoogleSigninButton,
-    statusCodes,
-} from '@react-native-google-signin/google-signin';
-import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/core';
+import { GoogleSignin } from '@react-native-google-signin/google-signin';
 
-const LoginScreen = () => {
+const ProfileScreen = () => {
 
     const navigation = useNavigation();
 
-    const onGoogleButtonPress = async () => {
+    const onLogOut = async () => {
         try {
-            await GoogleSignin.hasPlayServices();
-            const userInfo = await GoogleSignin.signIn();
-
-            const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
-
+            await GoogleSignin.signOut();
             navigation.reset({
                 index: 1,
                 routes: [{
-                    name: 'Tabs'
+                    name: 'Login'
                 }]
             })
-            return auth().signInWithCredential(googleCredential);
-
-
         } catch (error) {
-            console.log(error, "ERROR")
+            console.error(error, "ERROR");
         }
-    };
+    }
 
     return (
         <SafeAreaView style={styles.safeAreaView}>
             <View style={styles.conatiner}>
-                <GoogleSigninButton
-                    style={{ width: 192, height: 48 }}
-                    size={GoogleSigninButton.Size.Wide}
-                    color={GoogleSigninButton.Color.Dark}
-                    onPress={onGoogleButtonPress} />
+                <TouchableOpacity
+                    onPress={onLogOut}
+                    style={styles.logoutButton}>
+                    <Text>
+                        Logout
+                    </Text>
+                </TouchableOpacity>
             </View>
         </SafeAreaView>
     );
@@ -66,8 +56,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
-    buttonStyle: {
-        backgroundColor: 'red',
+    logoutButton: {
+        backgroundColor: 'lightblue',
         paddingVertical: 10,
         paddingHorizontal: 20,
         width: '90%',
@@ -78,4 +68,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginScreen;
+export default ProfileScreen;
