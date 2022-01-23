@@ -12,7 +12,7 @@
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		243AB23C279A80E700A1D04D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 243AB23B279A80E700A1D04D /* GoogleService-Info.plist */; };
+		242CFA86279CDA0C0006A331 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 242CFA85279CDA0C0006A331 /* GoogleService-Info.plist */; };
 		4D5C930CC7BF17A5FDC6FDAB /* libPods-Wadoo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 238A7C309F034A977E4C2FCA /* libPods-Wadoo.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -38,7 +38,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Wadoo/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Wadoo/main.m; sourceTree = "<group>"; };
 		238A7C309F034A977E4C2FCA /* libPods-Wadoo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-Wadoo.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		243AB23B279A80E700A1D04D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		242CFA85279CDA0C0006A331 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		46085FB9D958D58960142618 /* Pods-Wadoo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wadoo.debug.xcconfig"; path = "Target Support Files/Pods-Wadoo/Pods-Wadoo.debug.xcconfig"; sourceTree = "<group>"; };
 		5A0A48F39655B1CBA17401C1 /* Pods-Wadoo-WadooTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Wadoo-WadooTests.release.xcconfig"; path = "Target Support Files/Pods-Wadoo-WadooTests/Pods-Wadoo-WadooTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = Wadoo/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -129,7 +129,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				243AB23B279A80E700A1D04D /* GoogleService-Info.plist */,
+				242CFA85279CDA0C0006A331 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* Wadoo */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* WadooTests */,
@@ -248,7 +248,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				243AB23C279A80E700A1D04D /* GoogleService-Info.plist in Resources */,
+				242CFA86279CDA0C0006A331 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
