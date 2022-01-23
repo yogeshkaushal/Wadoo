@@ -9,13 +9,15 @@ import {
 import {
     GoogleSignin,
     GoogleSigninButton,
-    statusCodes,
 } from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/core';
+import { useDispatch } from 'react-redux';
+import { storeUserInfo } from '../../features/counter/userReducerSlice';
 
 const LoginScreen = () => {
 
+    const dispatch = useDispatch()
     const navigation = useNavigation();
 
     const onGoogleButtonPress = async () => {
@@ -24,6 +26,10 @@ const LoginScreen = () => {
             const userInfo = await GoogleSignin.signIn();
 
             const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
+
+            if (userInfo) {
+                dispatch(storeUserInfo(userInfo.user))
+            }
 
             navigation.reset({
                 index: 1,

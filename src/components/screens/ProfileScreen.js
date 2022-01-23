@@ -8,13 +8,17 @@ import {
 } from 'react-native';
 import { useNavigation } from '@react-navigation/core';
 import { GoogleSignin } from '@react-native-google-signin/google-signin';
+import { useDispatch } from 'react-redux';
+import { storeUserInfo } from '../../features/counter/userReducerSlice';
 
 const ProfileScreen = () => {
 
     const navigation = useNavigation();
+    const dispatch = useDispatch();
 
     const onLogOut = async () => {
         try {
+            dispatch(storeUserInfo({}))
             await GoogleSignin.signOut();
             navigation.reset({
                 index: 1,
