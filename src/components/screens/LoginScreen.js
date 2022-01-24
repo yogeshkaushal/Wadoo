@@ -14,11 +14,27 @@ import auth from '@react-native-firebase/auth';
 import { useNavigation } from '@react-navigation/core';
 import { useDispatch } from 'react-redux';
 import { storeUserInfo } from '../../features/counter/userReducerSlice';
+import firestore from '@react-native-firebase/firestore';
 
 const LoginScreen = () => {
 
     const dispatch = useDispatch()
     const navigation = useNavigation();
+
+    const storeUserDataCloud = (userInfo) => {
+        firestore()
+            .collection('Users')
+            .doc(userInfo.id)
+            .set({
+                name: userInfo?.name,
+                email: userInfo.email,
+                id: userInfo.id,
+                photo: userInfo.photo,
+            })
+            .then(() => {
+                console.log('User added!');
+            });
+    }
 
     const onGoogleButtonPress = async () => {
         try {
@@ -28,6 +44,7 @@ const LoginScreen = () => {
             const googleCredential = auth.GoogleAuthProvider.credential(userInfo.idToken);
 
             if (userInfo) {
+                storeUserDataCloud(userInfo?.user)
                 dispatch(storeUserInfo(userInfo.user))
             }
 
