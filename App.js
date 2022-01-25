@@ -1,11 +1,11 @@
 import React from 'react';
-import { LogBox } from 'react-native';
-import { store } from './src/store';
-import { Provider } from 'react-redux';
-import RouteNavigator from './src';
-import { GoogleSignin } from '@react-native-google-signin/google-signin';
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
+import {LogBox} from 'react-native';
+import {store} from './src/store';
+import {Provider} from 'react-redux';
+import RouteNavigator from './src/navigation';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
+import {PersistGate} from 'redux-persist/integration/react';
+import {persistStore} from 'redux-persist';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you\n're using an old API with gesture components, check out new Gestures system!",
@@ -13,17 +13,18 @@ LogBox.ignoreLogs([
 
 GoogleSignin.configure({
   scopes: ['https://www.googleapis.com/auth/drive.readonly'],
-  webClientId: '582761720891-p4lit86r21lr5s2kvvdsf3p9iprn3e5e.apps.googleusercontent.com',
+  webClientId:
+    '582761720891-p4lit86r21lr5s2kvvdsf3p9iprn3e5e.apps.googleusercontent.com',
   offlineAccess: true,
   hostedDomain: '',
   loginHint: '',
   forceConsentPrompt: true,
   accountName: '',
-  iosClientId: '582761720891-ib0ofj26hv7nk1dlo4tl06n7eeogmt4v.apps.googleusercontent.com'
+  iosClientId:
+    '582761720891-ib0ofj26hv7nk1dlo4tl06n7eeogmt4v.apps.googleusercontent.com',
 });
 
 const App = () => {
-
   let persistor = persistStore(store);
 
   return (
