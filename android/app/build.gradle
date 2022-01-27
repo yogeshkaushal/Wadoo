@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
+apply from: project(":react-native-config").projectDir.getPath() + "/dotenv.gradle"
 
 import com.android.build.OutputFile
 
@@ -78,6 +79,11 @@ import com.android.build.OutputFile
  * ]
  */
 
+project.ext.envConfigFiles = [
+  release: ".env.production",
+  dev: ".env.development"
+];
+
 project.ext.react = [
     enableHermes: false,  // clean and rebuild if changing
 ]
@@ -137,6 +143,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        resValue "string", "build_config_package", "com.wadoo"
     }
     splits {
         abi {

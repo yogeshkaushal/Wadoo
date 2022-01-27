@@ -11,9 +11,9 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import axios from 'axios';
 import {moderateScale} from 'react-native-size-matters';
+import {GOOGLE_BOOKS_API_KEY} from '@env';
 
 let timer = 0;
-const apiKey = 'AIzaSyDlXsi6XxKAzUUvRpTX-sB3860xDd6wAy4';
 
 const SearchBooksScreen = () => {
   const [book, setBook] = useState('');
@@ -29,7 +29,7 @@ const SearchBooksScreen = () => {
       'https://www.googleapis.com/books/v1/volumes?q=' +
         text +
         '&key=' +
-        apiKey +
+        GOOGLE_BOOKS_API_KEY +
         '&maxResults=25',
     );
 

@@ -74,3 +74,7 @@ buck-out/
 /ios/Pods/
 /android/local.properties
 
+# environmental variables
+*.env
+.env.*
+

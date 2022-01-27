@@ -11,9 +11,9 @@ import {
 import {TextInput} from 'react-native-gesture-handler';
 import axios from 'axios';
 import {moderateScale} from 'react-native-size-matters';
+import {OMDB_API_KEY} from '@env';
 
 let timer = 0;
-const apiKey = 'AIzaSyDlXsi6XxKAzUUvRpTX-sB3860xDd6wAy4';
 
 const SearchMoviesScreen = () => {
   const [movieText, setMovieText] = useState('');
@@ -26,7 +26,7 @@ const SearchMoviesScreen = () => {
     }
 
     const result = await axios.get(
-      `https://www.omdbapi.com/?i=tt3896198&apikey=9ae776bf&s=*${text}*&page=1`,
+      `https://www.omdbapi.com/?i=tt3896198&apikey=${OMDB_API_KEY}&s=*${text}*&page=1`,
     );
 
     if (result) {
