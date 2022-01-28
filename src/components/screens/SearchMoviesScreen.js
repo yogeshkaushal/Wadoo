@@ -1,3 +1,4 @@
+import {useNavigation} from '@react-navigation/core';
 import React, {useState} from 'react';
 import {
   View,
@@ -15,6 +16,8 @@ import {getMovies} from '../../queries/Search';
 let timer = 0;
 
 const SearchMoviesScreen = () => {
+  const navigation = useNavigation();
+
   const [movieText, setMovieText] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
@@ -41,9 +44,15 @@ const SearchMoviesScreen = () => {
     }, delay);
   };
 
+  const onPressItem = item => {
+    navigation.navigate('MovieDetailScreen', {movieId: item?.imdbID});
+  };
+
   const renderItem = (item, index) => {
     return (
-      <TouchableOpacity style={[styles.bookContainerStyle, styles.shadowProp]}>
+      <TouchableOpacity
+        onPress={() => onPressItem(item)}
+        style={[styles.bookContainerStyle, styles.shadowProp]}>
         <Image
           source={{uri: item?.Poster}}
           style={styles.imageStyle}

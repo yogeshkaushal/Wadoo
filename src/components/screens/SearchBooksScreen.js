@@ -11,14 +11,11 @@ import {
 } from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {getBooksByName} from '../../queries/Search';
-import {useDispatch} from 'react-redux';
-import {storeAllBooks} from '../../features/slices/savedBooksSlice';
 import {useNavigation} from '@react-navigation/core';
 
 let timer = 0;
 
 const SearchBooksScreen = () => {
-  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [book, setBook] = useState('');

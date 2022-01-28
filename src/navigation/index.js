@@ -6,6 +6,7 @@ import {
   CreatePostScreen,
   ExploreScreen,
   LoginScreen,
+  MovieDetailScreen,
   ProfileScreen,
   SearchBooksScreen,
   SearchMoviesScreen,
@@ -63,6 +64,14 @@ const RouteNavigator = () => {
         <Stack.Screen
           name="BookDetailScreen"
           component={BookDetailScreen}
+          options={{
+            headerTitle: 'Details',
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="MovieDetailScreen"
+          component={MovieDetailScreen}
           options={{
             headerTitle: 'Details',
             headerBackTitleVisible: false,

@@ -23,4 +23,12 @@ const getMovies = async (text, page) => {
   return result;
 };
 
-export {getBooksByName, getMovies};
+const getMovieDetails = async id => {
+  const result = await axios.get(
+    `${url.OMDB_API_BASE_URL + OMDB_API_KEY}&i=${id}`,
+  );
+
+  return result;
+};
+
+export {getBooksByName, getMovies, getMovieDetails};
