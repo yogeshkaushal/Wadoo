@@ -7,11 +7,13 @@ import {
   TouchableOpacity,
   Button,
   FlatList,
+  Image,
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import axios from 'axios';
 import {moderateScale} from 'react-native-size-matters';
 import {GOOGLE_BOOKS_API_KEY} from '@env';
+import {getBooks} from '../../queries/Search';
 
 let timer = 0;
 
@@ -25,15 +27,10 @@ const SearchBooksScreen = () => {
       return;
     }
 
-    const result = await axios.get(
-      'https://www.googleapis.com/books/v1/volumes?q=' +
-        text +
-        '&key=' +
-        GOOGLE_BOOKS_API_KEY +
-        '&maxResults=25',
-    );
+    const result = await getBooks(text, 30);
 
     if (result.data) {
+      console.log(result.data);
       setSearchResult(result.data.items);
     }
   };
@@ -48,13 +45,27 @@ const SearchBooksScreen = () => {
   };
 
   const renderItem = (item, index) => {
-    console.log(item, 'ITEM');
     return (
-      <View style={styles.bookContainerStyle}>
-        <Text numberOfLines={2} style={styles.title}>
-          {item?.volumeInfo?.title}
-        </Text>
-      </View>
+      <TouchableOpacity style={[styles.bookContainerStyle, styles.shadowProp]}>
+        <Image
+          source={{uri: item?.volumeInfo?.imageLinks?.thumbnail}}
+          style={styles.imageStyle}
+          resizeMode="cover"
+        />
+        <View style={styles.titleView}>
+          <Text numberOfLines={1} style={styles.title}>
+            {item?.volumeInfo?.title}
+          </Text>
+          {item?.volumeInfo?.subtitle && (
+            <Text numberOfLines={2} style={styles.subTextStyle}>
+              {item?.volumeInfo?.subtitle}
+            </Text>
+          )}
+          <Text numberOfLines={1} style={styles.subTextStyle}>
+            Business & Economics
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -101,19 +112,36 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: 'white',
   },
-  optionsButton: {
-    backgroundColor: 'red',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    marginVertical: 10,
-  },
   bookContainerStyle: {
-    marginHorizontal: moderateScale(15),
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    borderRadius: moderateScale(8),
+    padding: moderateScale(10),
     marginVertical: moderateScale(10),
+    width: '95%',
+  },
+  imageStyle: {
+    borderRadius: moderateScale(8),
+    backgroundColor: 'rgba(255, 87, 51,0.2 )',
+    width: moderateScale(60),
+    height: moderateScale(100),
+  },
+  titleView: {
+    flex: 1,
+    paddingHorizontal: moderateScale(10),
+    justifyContent: 'center',
+  },
+  subTextStyle: {
+    marginVertical: 3,
+    color: 'grey',
+    fontSize: moderateScale(13),
+  },
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: 4, height: 7},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 });
 

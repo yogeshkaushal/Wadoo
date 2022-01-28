@@ -4,14 +4,13 @@ import {
   StyleSheet,
   SafeAreaView,
   Text,
-  TouchableOpacity,
-  Button,
   FlatList,
+  Image,
+  TouchableOpacity,
 } from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-import axios from 'axios';
 import {moderateScale} from 'react-native-size-matters';
-import {OMDB_API_KEY} from '@env';
+import {getMovies} from '../../queries/Search';
 
 let timer = 0;
 
@@ -25,13 +24,11 @@ const SearchMoviesScreen = () => {
       return;
     }
 
-    const result = await axios.get(
-      `https://www.omdbapi.com/?i=tt3896198&apikey=${OMDB_API_KEY}&s=*${text}*&page=1`,
-    );
+    const result = await getMovies(text, 1);
 
     if (result) {
       console.log(result, 'result');
-      //   setSearchResult(result.data.items);
+      setSearchResult(result?.data?.Search);
     }
   };
 
@@ -45,13 +42,25 @@ const SearchMoviesScreen = () => {
   };
 
   const renderItem = (item, index) => {
-    console.log(item, 'ITEM');
     return (
-      <View style={styles.bookContainerStyle}>
-        <Text numberOfLines={2} style={styles.title}>
-          {item?.volumeInfo?.title}
-        </Text>
-      </View>
+      <TouchableOpacity style={[styles.bookContainerStyle, styles.shadowProp]}>
+        <Image
+          source={{uri: item?.Poster}}
+          style={styles.imageStyle}
+          resizeMode="cover"
+        />
+        <View style={styles.titleView}>
+          <Text numberOfLines={1} style={styles.title}>
+            {item?.Title}
+          </Text>
+          <Text numberOfLines={1} style={styles.subTextStyle}>
+            Type: {item?.Type}
+          </Text>
+          <Text numberOfLines={1} style={styles.subTextStyle}>
+            Release Year: {item?.Year}
+          </Text>
+        </View>
+      </TouchableOpacity>
     );
   };
 
@@ -76,13 +85,15 @@ const SearchMoviesScreen = () => {
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
+    backgroundColor: '#fbfbfb',
   },
   safeAreaView: {
     flex: 1,
+    backgroundColor: '#fbfbfb',
   },
   title: {
     fontWeight: 'bold',
-    fontSize: moderateScale(15),
+    fontSize: moderateScale(18),
   },
   textInput: {
     backgroundColor: 'lightgrey',
@@ -93,24 +104,36 @@ const styles = StyleSheet.create({
     width: '95%',
     alignSelf: 'center',
   },
-  textStyle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
-  },
-  optionsButton: {
-    backgroundColor: 'red',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    marginVertical: 10,
-  },
   bookContainerStyle: {
-    marginHorizontal: moderateScale(15),
+    // overflow: 'hidden',
+    backgroundColor: 'white',
+    alignSelf: 'center',
+    flexDirection: 'row',
+    borderRadius: moderateScale(8),
+    padding: moderateScale(10),
     marginVertical: moderateScale(10),
+    width: '95%',
+  },
+  imageStyle: {
+    borderRadius: moderateScale(8),
+    width: moderateScale(60),
+    height: moderateScale(100),
+  },
+  titleView: {
+    flex: 1,
+    paddingHorizontal: moderateScale(10),
+    justifyContent: 'center',
+  },
+  subTextStyle: {
+    marginVertical: 3,
+    color: 'grey',
+    fontSize: moderateScale(13),
+  },
+  shadowProp: {
+    shadowColor: '#171717',
+    shadowOffset: {width: 4, height: 7},
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 });
 
