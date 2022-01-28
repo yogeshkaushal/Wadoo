@@ -5,19 +5,22 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  Button,
+  TextInput,
   FlatList,
   Image,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
-import axios from 'axios';
 import {moderateScale} from 'react-native-size-matters';
-import {GOOGLE_BOOKS_API_KEY} from '@env';
-import {getBooks} from '../../queries/Search';
+import {getBooksByName} from '../../queries/Search';
+import {useDispatch} from 'react-redux';
+import {storeAllBooks} from '../../features/slices/savedBooksSlice';
+import {useNavigation} from '@react-navigation/core';
 
 let timer = 0;
 
 const SearchBooksScreen = () => {
+  const dispatch = useDispatch();
+  const navigation = useNavigation();
+
   const [book, setBook] = useState('');
   const [searchResult, setSearchResult] = useState([]);
 
@@ -27,7 +30,7 @@ const SearchBooksScreen = () => {
       return;
     }
 
-    const result = await getBooks(text, 30);
+    const result = await getBooksByName(text, 30);
 
     if (result.data) {
       console.log(result.data);
@@ -44,9 +47,15 @@ const SearchBooksScreen = () => {
     }, delay);
   };
 
+  const onPressItem = item => {
+    navigation.navigate('BookDetailScreen', {bookDetails: item});
+  };
+
   const renderItem = (item, index) => {
     return (
-      <TouchableOpacity style={[styles.bookContainerStyle, styles.shadowProp]}>
+      <TouchableOpacity
+        onPress={() => onPressItem(item)}
+        style={[styles.bookContainerStyle, styles.shadowProp]}>
         <Image
           source={{uri: item?.volumeInfo?.imageLinks?.thumbnail}}
           style={styles.imageStyle}
@@ -56,13 +65,20 @@ const SearchBooksScreen = () => {
           <Text numberOfLines={1} style={styles.title}>
             {item?.volumeInfo?.title}
           </Text>
-          {item?.volumeInfo?.subtitle && (
+          {item?.volumeInfo?.subtitle ? (
             <Text numberOfLines={2} style={styles.subTextStyle}>
               {item?.volumeInfo?.subtitle}
             </Text>
+          ) : (
+            <Text numberOfLines={2} style={styles.subTextStyle}>
+              {item?.volumeInfo?.description}
+            </Text>
           )}
           <Text numberOfLines={1} style={styles.subTextStyle}>
-            Business & Economics
+            Author:
+            {item?.volumeInfo?.authors?.length > 0
+              ? ' ' + item?.volumeInfo?.authors[0]
+              : ' ' + 'Anonymus'}
           </Text>
         </View>
       </TouchableOpacity>
@@ -90,9 +106,11 @@ const SearchBooksScreen = () => {
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
+    backgroundColor: '#fbfbfb',
   },
   safeAreaView: {
     flex: 1,
+    backgroundColor: '#fbfbfb',
   },
   title: {
     fontWeight: 'bold',

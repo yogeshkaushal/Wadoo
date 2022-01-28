@@ -2,6 +2,7 @@ import React from 'react';
 import {LogBox} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {
+  BookDetailScreen,
   CreatePostScreen,
   ExploreScreen,
   LoginScreen,
@@ -30,7 +31,13 @@ const TabNavigator = () => {
 const RouteNavigator = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerTintColor: 'black',
+          headerStyle: {
+            backgroundColor: '#fbfbfb',
+          },
+        }}>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen
           options={{headerShown: false}}
@@ -50,6 +57,14 @@ const RouteNavigator = () => {
           component={SearchMoviesScreen}
           options={{
             headerTitle: 'Search Movies',
+            headerBackTitleVisible: false,
+          }}
+        />
+        <Stack.Screen
+          name="BookDetailScreen"
+          component={BookDetailScreen}
+          options={{
+            headerTitle: 'Details',
             headerBackTitleVisible: false,
           }}
         />

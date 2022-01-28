@@ -6,9 +6,9 @@ import {
   Text,
   FlatList,
   Image,
+  TextInput,
   TouchableOpacity,
 } from 'react-native';
-import {TextInput} from 'react-native-gesture-handler';
 import {moderateScale} from 'react-native-size-matters';
 import {getMovies} from '../../queries/Search';
 

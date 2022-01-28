@@ -1,3 +1,4 @@
+import BookDetailScreen from './BookDetailScreen';
 import CreatePostScreen from './CreatePostScreen';
 import ExploreScreen from './ExploreScreen';
 import LoginScreen from './LoginScreen';
@@ -12,4 +13,5 @@ export {
   CreatePostScreen,
   SearchBooksScreen,
   SearchMoviesScreen,
+  BookDetailScreen,
 };
