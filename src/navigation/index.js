@@ -13,6 +13,7 @@ import {
 } from '../components/screens';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AuthLoading from '../components/screens/AuthLoading';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -33,13 +34,16 @@ const RouteNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
+      initialRouteName={"AuthLoading"}
         screenOptions={{
           headerTintColor: 'black',
           headerStyle: {
             backgroundColor: '#fbfbfb',
           },
         }}>
-        <Stack.Screen name="Login" component={LoginScreen} />
+        <Stack.Screen name="Login"
+        options={{headerShown: false}}
+        component={LoginScreen} />
         <Stack.Screen
           options={{headerShown: false}}
           name="Tabs"
@@ -52,6 +56,11 @@ const RouteNavigator = () => {
             headerTitle: 'Search Books',
             headerBackTitleVisible: false,
           }}
+        />
+        <Stack.Screen
+          name="AuthLoading"
+          component={AuthLoading}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SearchMoviesScreen"
