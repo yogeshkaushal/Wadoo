@@ -7,7 +7,7 @@ import {
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/core';
 import {useDispatch} from 'react-redux';
-import {storeUserInfo} from '../../features/counter/userReducerSlice';
+import {storeUserInfo} from '../../features/slices/userReducerSlice';
 import firestore from '@react-native-firebase/firestore';
 import collections from '../../utils/collectionConstants';
 
