@@ -20,7 +20,7 @@ const CreatePostScreen = () => {
         <TouchableOpacity
           onPress={() => navigation.navigate('SearchMoviesScreen')}
           style={styles.optionsButton}>
-          <Text>Movies</Text>
+          <Text style={styles.moviesText}>Movies</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => navigation.navigate('SearchBooksScreen')}
@@ -55,6 +55,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 7,
     marginVertical: 10,
+  },
+  moviesText: {
+    fontFamily: 'Roboto-Thin',
   },
 });
 

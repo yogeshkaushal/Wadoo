@@ -28,6 +28,7 @@ const MovieDetailScreen = () => {
     const result = await getMovieDetails(route.params?.movieId);
 
     if (result.status === 200) {
+      console.log(result.data);
       setMovieDetails(result.data);
       setLoading(false);
     }

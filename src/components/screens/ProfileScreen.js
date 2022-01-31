@@ -9,7 +9,7 @@ import {
 import {useNavigation} from '@react-navigation/core';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import {useDispatch} from 'react-redux';
-import {storeUserInfo} from '../../features/counter/userReducerSlice';
+import {storeUserInfo} from '../../features/slices/userReducerSlice';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
