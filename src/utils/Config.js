@@ -22,6 +22,7 @@ const config = {
     secondryColor: '#272727',
     subTextColor: '#767676',
     orangeColor: '#FC5312',
+    tabBackground: '#402B23',
   },
   icons: {
     GOOGLE_ICON: 'GOOGLE_ICON',

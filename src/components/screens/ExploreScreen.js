@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
 } from 'react-native';
+import config from '../../utils/Config';
 
 const ExploreScreen = () => {
   return (
@@ -23,6 +24,7 @@ const styles = StyleSheet.create({
   },
   safeAreaView: {
     flex: 1,
+    backgroundColor: config.colors.primaryColor,
   },
   textStyle: {
     fontSize: 30,
