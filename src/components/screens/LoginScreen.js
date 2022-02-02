@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, SafeAreaView, Text} from 'react-native';
+import {View, StyleSheet, SafeAreaView, Text, StatusBar} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/core';
@@ -36,8 +36,9 @@ const LoginScreen = () => {
   };
 
   const onGoogleSignIn = async () => {
+    setLoading(true);
+
     try {
-      setLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
@@ -70,11 +71,12 @@ const LoginScreen = () => {
     <>
       <SafeAreaView style={{backgroundColor: config.colors.primaryColor}} />
       <SafeAreaView style={styles.safeAreaView}>
+        <StatusBar barStyle="light-content" translucent={true} />
         <LinearGradient
           colors={[config.colors.primaryColor, config.colors.secondryColor]}
           style={styles.conatiner}>
           <View style={styles.upperContainer}>
-            <AppIcon />
+            <AppIcon width={70} height={70} />
             <Text style={styles.headlineText}>Welcome to Wadoo</Text>
             <Text style={styles.subText}>Let's find something intresting</Text>
           </View>
