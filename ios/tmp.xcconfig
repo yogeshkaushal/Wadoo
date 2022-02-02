@@ -1,0 +1,5 @@
+IOS_CLIENT_ID=582761720891-ib0ofj26hv7nk1dlo4tl06n7eeogmt4v.apps.googleusercontent.com
+WEB_CLIENT_ID=582761720891-p4lit86r21lr5s2kvvdsf3p9iprn3e5e.apps.googleusercontent.com
+SCOPES=https:/$()/www.googleapis.com/auth/drive.readonly
+GOOGLE_BOOKS_API_KEY=AIzaSyDlXsi6XxKAzUUvRpTX-sB3860xDd6wAy4
+OMDB_API_KEY=9ae776bf

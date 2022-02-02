@@ -34,16 +34,18 @@ const RouteNavigator = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-      initialRouteName={"AuthLoading"}
+        initialRouteName={'AuthLoading'}
         screenOptions={{
           headerTintColor: 'black',
           headerStyle: {
             backgroundColor: '#fbfbfb',
           },
         }}>
-        <Stack.Screen name="Login"
-        options={{headerShown: false}}
-        component={LoginScreen} />
+        <Stack.Screen
+          name="Login"
+          options={{headerShown: false}}
+          component={LoginScreen}
+        />
         <Stack.Screen
           options={{headerShown: false}}
           name="Tabs"
