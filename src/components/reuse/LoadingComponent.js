@@ -1,12 +1,13 @@
 import React from 'react';
 import {View, ActivityIndicator, StyleSheet} from 'react-native';
+import config from '../../utils/Config';
 import {screenHeight, screenWidth} from '../../utils/Helper';
 
 const LoadingComponent = () => {
   return (
     <View style={styles.mainContainer}>
       <ActivityIndicator
-        color="red"
+        color={config.colors.orangeColor}
         size="large"
         style={styles.activityIndicator}
       />
@@ -16,7 +17,7 @@ const LoadingComponent = () => {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(0,0,0,0.5)',
     position: 'absolute',
     width: screenWidth,
     height: screenHeight,

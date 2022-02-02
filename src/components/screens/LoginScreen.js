@@ -1,19 +1,24 @@
-import React from 'react';
-import {View, StyleSheet, SafeAreaView} from 'react-native';
-import {
-  GoogleSignin,
-  GoogleSigninButton,
-} from '@react-native-google-signin/google-signin';
+import React, {useState} from 'react';
+import {View, StyleSheet, SafeAreaView, Text} from 'react-native';
+import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/core';
 import {useDispatch} from 'react-redux';
 import {storeUserInfo} from '../../features/slices/userReducerSlice';
 import firestore from '@react-native-firebase/firestore';
 import collections from '../../utils/collectionConstants';
+import LinearGradient from 'react-native-linear-gradient';
+import AppIcon from '../../assets/icons/ic_app_icon.svg';
+import config from '../../utils/Config';
+import {moderateScale} from 'react-native-size-matters';
+import AppButton from '../reuse/AppButton';
+import LoadingComponent from '../reuse/LoadingComponent';
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [loading, setLoading] = useState(false);
 
   const storeUserDataCloud = userInfo => {
     firestore()
@@ -32,6 +37,7 @@ const LoginScreen = () => {
 
   const onGoogleSignIn = async () => {
     try {
+      setLoading(true);
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
 
@@ -42,6 +48,7 @@ const LoginScreen = () => {
       if (userInfo) {
         storeUserDataCloud(userInfo?.user);
         dispatch(storeUserInfo(userInfo.user));
+        setLoading(false);
       }
 
       navigation.reset({
@@ -54,32 +61,61 @@ const LoginScreen = () => {
       });
       return auth().signInWithCredential(googleCredential);
     } catch (error) {
+      setLoading(false);
       console.log(error, 'ERROR');
     }
   };
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <View style={styles.conatiner}>
-        <GoogleSigninButton
-          style={{width: 192, height: 48}}
-          size={GoogleSigninButton.Size.Wide}
-          color={GoogleSigninButton.Color.Dark}
-          onPress={onGoogleSignIn}
-        />
-      </View>
-    </SafeAreaView>
+    <>
+      <SafeAreaView style={{backgroundColor: config.colors.primaryColor}} />
+      <SafeAreaView style={styles.safeAreaView}>
+        <LinearGradient
+          colors={[config.colors.primaryColor, config.colors.secondryColor]}
+          style={styles.conatiner}>
+          <View style={styles.upperContainer}>
+            <AppIcon />
+            <Text style={styles.headlineText}>Welcome to Wadoo</Text>
+            <Text style={styles.subText}>Let's find something intresting</Text>
+          </View>
+          <View style={{flex: 1}}>
+            <AppButton
+              title="SignIn with google"
+              icon={config.icons.GOOGLE_ICON}
+              onPress={onGoogleSignIn}
+            />
+          </View>
+        </LinearGradient>
+        {loading && <LoadingComponent />}
+      </SafeAreaView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingHorizontal: moderateScale(15),
   },
   safeAreaView: {
     flex: 1,
+    backgroundColor: config.colors.secondryColor,
+  },
+  upperContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
+  headlineText: {
+    fontFamily: config.fonts.bold,
+    fontSize: moderateScale(35),
+    marginTop: moderateScale(25),
+    marginBottom: moderateScale(5),
+    color: 'white',
+  },
+  subText: {
+    fontFamily: config.fonts.bold,
+    color: config.colors.subTextColor,
+    fontSize: moderateScale(17),
   },
   textStyle: {
     fontSize: 16,
