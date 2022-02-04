@@ -43,15 +43,12 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
+        headerShown: false,
         tabBarIcon: ({color}) => screenOptions(route, color),
         tabBarLabel: '',
         tabBarStyle: {
           borderTopWidth: 0,
           backgroundColor: config.colors.tabBackground,
-        },
-        headerTintColor: 'white',
-        headerStyle: {
-          backgroundColor: config.colors.primaryColor,
         },
       })}
       sceneContainerStyle={styles.tabContainer}>

@@ -8,25 +8,27 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {useDispatch} from 'react-redux';
+import config from '../../utils/Config';
+import { moderateScale } from 'react-native-size-matters';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CreatePostScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
 
+  // onPress={() => navigation.navigate('SearchMoviesScreen')}
+  // onPress={() => navigation.navigate('SearchBooksScreen')}
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.conatiner}>
-        <Text>Recommend</Text>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SearchMoviesScreen')}
-          style={styles.optionsButton}>
-          <Text style={styles.moviesText}>Movies</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => navigation.navigate('SearchBooksScreen')}
-          style={styles.optionsButton}>
-          <Text>Books</Text>
-        </TouchableOpacity>
+        <Text style={styles.headlineText}>Recommend</Text>
+        <Text style={styles.subText}>Choose what you want to Recommend</Text>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity style={styles.selectionBox}>
+             
+          </TouchableOpacity>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -35,30 +37,29 @@ const CreatePostScreen = () => {
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    marginHorizontal: moderateScale(10),
+    marginVertical: moderateScale(20),
   },
   safeAreaView: {
     flex: 1,
   },
-  textStyle: {
-    fontSize: 16,
-    fontWeight: 'bold',
+  headlineText: {
+    fontFamily: config.fonts.bold,
+    fontSize: moderateScale(25),
+    marginBottom: moderateScale(5),
     color: 'white',
   },
-  optionsButton: {
-    backgroundColor: 'red',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    width: '90%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 7,
-    marginVertical: 10,
+  subText: {
+    fontFamily: config.fonts.bold,
+    color: config.colors.subTextColor,
+    fontSize: moderateScale(17),
   },
-  moviesText: {
-    fontFamily: 'Roboto-Thin',
+  bottomContainer:{
+    flexDirection: 'row',
   },
+  selectionBox:{
+
+  }
 });
 
 export default CreatePostScreen;
