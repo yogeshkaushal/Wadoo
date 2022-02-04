@@ -82,7 +82,12 @@ const RouteNavigator = () => {
           name="SearchBooksScreen"
           component={SearchBooksScreen}
           options={{
-            headerTitle: 'Search Books',
+            headerStyle: {
+              backgroundColor: config.colors.primaryColor,
+            },
+            headerTintColor: 'white',
+            headerShadowVisible: false,
+            headerTitle: '',
             headerBackTitleVisible: false,
           }}
         />
@@ -95,7 +100,12 @@ const RouteNavigator = () => {
           name="SearchMoviesScreen"
           component={SearchMoviesScreen}
           options={{
-            headerTitle: 'Search Movies',
+            headerStyle: {
+              backgroundColor: config.colors.primaryColor,
+            },
+            headerTintColor: 'white',
+            headerShadowVisible: false,
+            headerTitle: '',
             headerBackTitleVisible: false,
           }}
         />

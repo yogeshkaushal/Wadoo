@@ -9,9 +9,14 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {getMovies} from '../../queries/Search';
+import config from '../../utils/Config';
+import Icon from '../../assets/icons/ic_profile.svg';
+import {capitalizeFirstLetter} from '../../utils/Helper';
 
 let timer = 0;
 
@@ -19,19 +24,27 @@ const SearchMoviesScreen = () => {
   const navigation = useNavigation();
 
   const [movieText, setMovieText] = useState('');
+  const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
 
   const getAllMovies = async text => {
+    setLoading(true);
+
     if (!text) {
       setSearchResult([]);
       return;
     }
 
-    const result = await getMovies(text, 1);
+    try {
+      const result = await getMovies(text, 1);
 
-    if (result) {
-      console.log(result, 'result');
-      setSearchResult(result?.data?.Search);
+      if (result) {
+        setSearchResult(result?.data?.Search);
+        setLoading(false);
+      }
+    } catch (error) {
+      setLoading(false);
+      Alert.alert(error);
     }
   };
 
@@ -40,7 +53,7 @@ const SearchMoviesScreen = () => {
 
     clearTimeout(timer);
     timer = setTimeout(() => {
-      getAllMovies(text);
+      getAllMovies(text.trim());
     }, delay);
   };
 
@@ -63,10 +76,10 @@ const SearchMoviesScreen = () => {
             {item?.Title}
           </Text>
           <Text numberOfLines={1} style={styles.subTextStyle}>
-            Type: {item?.Type}
+            {capitalizeFirstLetter(item?.Type)}
           </Text>
           <Text numberOfLines={1} style={styles.subTextStyle}>
-            Release Year: {item?.Year}
+            {item?.Year}
           </Text>
         </View>
       </TouchableOpacity>
@@ -76,16 +89,28 @@ const SearchMoviesScreen = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.conatiner}>
-        <TextInput
-          placeholder="Search Movies"
-          onChangeText={text => debounce(text, 300)}
-          style={styles.textInput}
-        />
-        <FlatList
-          data={searchResult}
-          extraData={searchResult}
-          renderItem={({item, index}) => renderItem(item, index)}
-        />
+        <View style={styles.inputContainer}>
+          <Icon style={{marginLeft: moderateScale(5)}} />
+          <TextInput
+            placeholder="Search Movies"
+            placeholderTextColor={config.colors.subTextColor}
+            onChangeText={text => debounce(text, 300)}
+            style={styles.textInput}
+          />
+        </View>
+        {loading ? (
+          <ActivityIndicator
+            color={config.colors.orangeColor}
+            size="large"
+            style={styles.activityIndicator}
+          />
+        ) : (
+          <FlatList
+            data={searchResult}
+            extraData={searchResult}
+            renderItem={({item, index}) => renderItem(item, index)}
+          />
+        )}
       </View>
     </SafeAreaView>
   );
@@ -94,28 +119,28 @@ const SearchMoviesScreen = () => {
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
-    backgroundColor: '#fbfbfb',
+    backgroundColor: config.colors.primaryColor,
   },
   safeAreaView: {
     flex: 1,
-    backgroundColor: '#fbfbfb',
+    backgroundColor: config.colors.primaryColor,
   },
   title: {
     fontWeight: 'bold',
+    fontFamily: config.fonts.regular,
+    color: 'white',
     fontSize: moderateScale(18),
   },
   textInput: {
-    backgroundColor: 'lightgrey',
-    paddingVertical: moderateScale(10),
-    paddingHorizontal: moderateScale(10),
-    marginVertical: moderateScale(10),
-    borderRadius: moderateScale(8),
-    width: '95%',
-    alignSelf: 'center',
+    paddingVertical: moderateScale(8),
+    marginLeft: moderateScale(15),
+    fontSize: moderateScale(15),
+    color: 'white',
+    width: '85%',
   },
   bookContainerStyle: {
     // overflow: 'hidden',
-    backgroundColor: 'white',
+    backgroundColor: config.colors.secondryColor,
     alignSelf: 'center',
     flexDirection: 'row',
     borderRadius: moderateScale(8),
@@ -125,6 +150,7 @@ const styles = StyleSheet.create({
   },
   imageStyle: {
     borderRadius: moderateScale(8),
+    backgroundColor: config.colors.subTextColor,
     width: moderateScale(60),
     height: moderateScale(100),
   },
@@ -135,14 +161,26 @@ const styles = StyleSheet.create({
   },
   subTextStyle: {
     marginVertical: 3,
-    color: 'grey',
-    fontSize: moderateScale(13),
+    fontFamily: config.fonts.regular,
+    fontSize: moderateScale(14),
+    color: config.colors.subTextColor,
   },
   shadowProp: {
     shadowColor: '#171717',
     shadowOffset: {width: 4, height: 7},
     shadowOpacity: 0.2,
     shadowRadius: 3,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    backgroundColor: '#2A2A2A',
+    borderRadius: moderateScale(25),
+    marginBottom: moderateScale(10),
+    paddingVertical: moderateScale(5),
+    width: '95%',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 

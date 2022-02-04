@@ -32,7 +32,7 @@ const CreatePostScreen = () => {
             <LinearGradient colors={colorsArray1} style={styles.gradientBox}>
               <ImageBackground
                 style={styles.imageBackground}
-                source={require('../../assets/icons/img_book.png')}
+                source={require('../../assets/icons/img_movie_background.png')}
               />
               <Text style={styles.headlineText}>Movies</Text>
             </LinearGradient>
