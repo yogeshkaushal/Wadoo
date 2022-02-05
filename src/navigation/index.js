@@ -74,6 +74,11 @@ const RouteNavigator = () => {
           component={LoginScreen}
         />
         <Stack.Screen
+          name="AuthLoading"
+          component={AuthLoading}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
           options={{headerShown: false}}
           name="Tabs"
           component={TabNavigator}
@@ -90,11 +95,6 @@ const RouteNavigator = () => {
             headerTitle: '',
             headerBackTitleVisible: false,
           }}
-        />
-        <Stack.Screen
-          name="AuthLoading"
-          component={AuthLoading}
-          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SearchMoviesScreen"
@@ -121,7 +121,12 @@ const RouteNavigator = () => {
           name="MovieDetailScreen"
           component={MovieDetailScreen}
           options={{
-            headerTitle: 'Details',
+            headerStyle: {
+              backgroundColor: config.colors.primaryColor,
+            },
+            headerTintColor: 'white',
+            headerShadowVisible: false,
+            headerTitle: '',
             headerBackTitleVisible: false,
           }}
         />
