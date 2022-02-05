@@ -13,9 +13,8 @@ import {moderateScale} from 'react-native-size-matters';
 import {getMovieDetails} from '../../queries/Search';
 import LoadingComponent from '../reuse/LoadingComponent';
 
-const MovieDetailScreen = () => {
+const MovieDetailScreen = ({navigation}) => {
   const route = useRoute();
-  console.log(route.params?.movieId);
 
   const [movieDetails, setMovieDetails] = useState({});
   const [loading, setLoading] = useState(true);
@@ -37,6 +36,10 @@ const MovieDetailScreen = () => {
   if (loading) {
     return <LoadingComponent />;
   }
+
+  const onRecommendationClick = () => {
+    navigation.navigate('NotifyPeople', {movieDetails});
+  };
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -73,7 +76,9 @@ const MovieDetailScreen = () => {
           <Text style={styles.description}>{movieDetails?.Plot}</Text>
         </View>
       </ScrollView>
-      <TouchableOpacity style={styles.recommendationButton}>
+      <TouchableOpacity
+        onPress={onRecommendationClick}
+        style={styles.recommendationButton}>
         <Text style={{fontWeight: 'bold'}}>Send Recommendation</Text>
       </TouchableOpacity>
     </SafeAreaView>

@@ -19,6 +19,7 @@ import HomeIcon from '../assets/icons/ic_home.svg';
 import AddPostIcon from '../assets/icons/ic_bottom_add.svg';
 import ProfileIcon from '../assets/icons/ic_profile.svg';
 import {moderateScale} from 'react-native-size-matters';
+import NotifyPeople from '../components/screens/NotifyPeople';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -48,7 +49,8 @@ const TabNavigator = () => {
         tabBarLabel: '',
         tabBarStyle: {
           borderTopWidth: 0,
-          backgroundColor: config.colors.tabBackground,
+          // backgroundColor:  ,
+          position: 'absolute',
         },
       })}
       sceneContainerStyle={styles.tabContainer}>
@@ -94,6 +96,11 @@ const RouteNavigator = () => {
         <Stack.Screen
           name="AuthLoading"
           component={AuthLoading}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="NotifyPeople"
+          component={NotifyPeople}
           options={{headerShown: false}}
         />
         <Stack.Screen
