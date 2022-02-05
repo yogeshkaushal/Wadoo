@@ -13,6 +13,8 @@ import config from '../../utils/Config';
 import {moderateScale} from 'react-native-size-matters';
 import AppButton from '../reuse/AppButton';
 import LoadingComponent from '../reuse/LoadingComponent';
+import messaging from '@react-native-firebase/messaging';
+
 
 const LoginScreen = () => {
   const dispatch = useDispatch();
@@ -20,7 +22,8 @@ const LoginScreen = () => {
 
   const [loading, setLoading] = useState(false);
 
-  const storeUserDataCloud = userInfo => {
+  const storeUserDataCloud = async userInfo => {
+    const deviceToken=await messaging().getToken();
     firestore()
       .collection(collections.USERS)
       .doc(userInfo.id)
@@ -29,6 +32,7 @@ const LoginScreen = () => {
         email: userInfo.email,
         id: userInfo.id,
         photo: userInfo.photo,
+        deviceToken
       })
       .then(() => {
         console.log('User added!');

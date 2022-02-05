@@ -1822,6 +1822,11 @@
   "resolved" "https://registry.npmjs.org/@react-native-firebase/firestore/-/firestore-14.3.0.tgz"
   "version" "14.3.0"
 
+"@react-native-firebase/messaging@^14.3.0":
+  "integrity" "sha512-TLp4ugWlFa8JbMe6TrTfzRepcxKuJfzmwC9t7sykgAwpaX6rNOj87EdWAErQyZG2UONPvPzQPIRJqNHFIargtw=="
+  "resolved" "https://registry.npmjs.org/@react-native-firebase/messaging/-/messaging-14.3.0.tgz"
+  "version" "14.3.0"
+
 "@react-native-google-signin/google-signin@^7.0.4":
   "integrity" "sha512-N5uVDlTp/mgpa5gFr6VIr8pldt68jlmHOlqcTSnSwBuZXusXMiK53DCIOWuYk4OJ1rlb8Esa9J4FJwUB0psU9Q=="
   "resolved" "https://registry.npmjs.org/@react-native-google-signin/google-signin/-/google-signin-7.0.4.tgz"
