@@ -15,7 +15,6 @@ import AppButton from '../reuse/AppButton';
 import LoadingComponent from '../reuse/LoadingComponent';
 import messaging from '@react-native-firebase/messaging';
 
-
 const LoginScreen = () => {
   const dispatch = useDispatch();
   const navigation = useNavigation();
@@ -23,20 +22,18 @@ const LoginScreen = () => {
   const [loading, setLoading] = useState(false);
 
   const storeUserDataCloud = async userInfo => {
-    const deviceToken=await messaging().getToken();
-    firestore()
-      .collection(collections.USERS)
-      .doc(userInfo.id)
-      .set({
+    const deviceToken = await messaging().getToken();
+    const usersRef = firestore().collection(collections.USERS).doc(userInfo.id);
+    const docSnapshot = await usersRef.get();
+    if (!docSnapshot.exists) {
+      usersRef.set({
         name: userInfo?.name,
         email: userInfo.email,
         id: userInfo.id,
         photo: userInfo.photo,
-        deviceToken
-      })
-      .then(() => {
-        console.log('User added!');
+        deviceToken,
       });
+    }
   };
 
   const onGoogleSignIn = async () => {

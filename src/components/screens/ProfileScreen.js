@@ -1,23 +1,36 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
   SafeAreaView,
   Text,
   TouchableOpacity,
+  Image,
+  Platform,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
-import {useDispatch} from 'react-redux';
-import {storeUserInfo} from '../../features/slices/userReducerSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {
+  saveImageOnfirebase,
+  storeUserInfo,
+  updateImage,
+} from '../../features/slices/userReducerSlice';
+import storage from '@react-native-firebase/storage';
+import ImagePicker from 'react-native-image-crop-picker';
+import LoadingComponent from '../reuse/LoadingComponent';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const user = useSelector(
+    state => state.persistedUser?.savedUserInfo?.userInfo,
+  );
+  const [imageUrl, setImageUrl] = useState(user?.photo);
+  const [loading, setLoading] = useState(false);
 
   const onLogOut = async () => {
     try {
-      dispatch(storeUserInfo({}));
       await GoogleSignin.signOut();
       navigation.reset({
         index: 1,
@@ -32,13 +45,49 @@ const ProfileScreen = () => {
     }
   };
 
+  const onImageClick = async () => {
+    const image = await ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true,
+    });
+    saveImage(image.sourceURL);
+    setImageUrl(image.sourceURL);
+  };
+
+  const uploadImageAndGetUrl = async (localUri, firebasePath) => {
+    try {
+      const imageRef = storage().ref(firebasePath);
+      await imageRef.putFile(localUri, {contentType: 'image/jpg'});
+      const url = await imageRef.getDownloadURL();
+      return url;
+    } catch (err) {}
+  };
+
+  const saveImage = async image => {
+    try {
+      const localUri =
+        Platform.OS === 'ios' ? image.replace('file://', '') : image;
+      setLoading(true);
+      const imageUrl = await uploadImageAndGetUrl(localUri, `/${user?.name}/`);
+      dispatch(updateImage(imageUrl));
+      await saveImageOnfirebase(user?.id, imageUrl);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.conatiner}>
+        <TouchableOpacity onPress={onImageClick}>
+          <Image source={{uri: imageUrl}} style={styles.profileStyle} />
+        </TouchableOpacity>
         <TouchableOpacity onPress={onLogOut} style={styles.logoutButton}>
           <Text>Logout</Text>
         </TouchableOpacity>
       </View>
+      {loading && <LoadingComponent />}
     </SafeAreaView>
   );
 };
@@ -48,6 +97,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  profileStyle: {
+    height: 100,
+    width: 100,
+    borderRadius: 50,
+    backgroundColor: 'white',
   },
   safeAreaView: {
     flex: 1,

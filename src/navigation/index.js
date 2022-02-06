@@ -49,7 +49,7 @@ const TabNavigator = () => {
         tabBarLabel: '',
         tabBarStyle: {
           borderTopWidth: 0,
-          // backgroundColor:  ,
+          backgroundColor: 'black',
           position: 'absolute',
         },
       })}
