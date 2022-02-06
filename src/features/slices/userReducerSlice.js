@@ -10,6 +10,12 @@ export const getAllUsers = async () => {
   return snapshot.docs.map(doc => doc.data());
 };
 
+export const saveImageOnfirebase = (userId, imageUrl) => {
+  return firestore().collection('Users').doc(userId).update({
+    photo: imageUrl,
+  });
+};
+
 export const userReducerSlice = createSlice({
   name: 'userReducer',
   initialState,
@@ -17,10 +23,13 @@ export const userReducerSlice = createSlice({
     storeUserInfo: (state, action) => {
       state.userInfo = {...action.payload};
     },
+    updateImage: (state, action) => {
+      state.userInfo.photo = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const {storeUserInfo} = userReducerSlice.actions;
+export const {storeUserInfo, updateImage} = userReducerSlice.actions;
 
 export default userReducerSlice.reducer;

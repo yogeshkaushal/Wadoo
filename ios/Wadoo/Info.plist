@@ -20,6 +20,10 @@
 	<string>1.0</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
+  <key>NSPhotoLibraryUsageDescription</key>
+  <string>${PRODUCT_NAME} requires access to your gallery to add pictures to your profile</string>
+  <key>NSCameraUsageDescription</key>
+  <string>${PRODUCT_NAME} requires access to your camera to add pictures to your profile</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

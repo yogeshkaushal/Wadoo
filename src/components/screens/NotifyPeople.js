@@ -18,12 +18,12 @@ import AppButton from '../reuse/AppButton';
 const {grey, white, bgColor, orange} = Colors;
 
 const NotifyPeople = () => {
-  const movieImage = params?.movieDetails?.Poster;
-
   const [loading, setLoading] = useState(false);
   const [caption, setCaption] = useState('');
   const [users, setUsers] = useState([]);
   const {params} = useRoute();
+
+  const movieImage = params?.movieDetails?.Poster;
 
   useEffect(() => {
     getUsers();
@@ -76,10 +76,7 @@ const NotifyPeople = () => {
         source={{uri: movieImage}}
         resizeMode="cover"
         blurRadius={3}
-        style={{
-          flex: 0.4,
-          backgroundColor: 'red',
-        }}>
+        style={{flex: 0.4}}>
         <Image
           source={{uri: movieImage}}
           resizeMode="contain"

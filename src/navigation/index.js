@@ -49,7 +49,7 @@ const TabNavigator = () => {
         tabBarLabel: '',
         tabBarStyle: {
           borderTopWidth: 0,
-          // backgroundColor:  ,
+          backgroundColor: 'black',
           position: 'absolute',
         },
       })}
@@ -99,11 +99,6 @@ const RouteNavigator = () => {
           }}
         />
         <Stack.Screen
-          name="AuthLoading"
-          component={AuthLoading}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
           name="NotifyPeople"
           component={NotifyPeople}
           options={{headerShown: false}}
@@ -133,6 +128,7 @@ const RouteNavigator = () => {
           name="MovieDetailScreen"
           component={MovieDetailScreen}
           options={{
+            headerShown: false,
             headerStyle: {
               backgroundColor: config.colors.primaryColor,
             },
