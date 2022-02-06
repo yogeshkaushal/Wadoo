@@ -10,7 +10,7 @@ const capitalizeFirstLetter = text => {
 export const showAlert = (message, showCancel, negativeText, positiveText) => {
   return new Promise(function (resolve) {
     Alert.alert(
-      'Alert title',
+      'Logout',
       message,
       showCancel
         ? [
