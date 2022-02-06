@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "Waveless-Color.png",
+      "filename" : "gradient.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Waveless-Color@2x.png",
+      "filename" : "gradient@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "Waveless-Color@3x.png",
+      "filename" : "gradient@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

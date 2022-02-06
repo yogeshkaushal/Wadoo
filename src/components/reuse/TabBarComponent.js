@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Pressable, Dimensions, StyleSheet} from 'react-native';
-import { moderateScale } from 'react-native-size-matters';
+import {moderateScale} from 'react-native-size-matters';
 import config from '../../utils/Config';
 // import NavigationIcon from './navigationIcon';
 // import {SelectWheel} from '.';

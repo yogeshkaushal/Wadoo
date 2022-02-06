@@ -4,12 +4,13 @@ import {moderateScale} from 'react-native-size-matters';
 import config from '../../utils/Config';
 import GoogleIcon from '../../assets/icons/ic_google.svg';
 
-const AppButton = ({title, icon, onPress}) => {
+const AppButton = ({title, icon, onPress, style}) => {
   return (
     <TouchableOpacity
       onPress={onPress}
       style={{
         ...styles.container,
+        ...style,
         paddingVertical: icon ? 0 : moderateScale(12),
       }}>
       {icon === config.icons.GOOGLE_ICON && (
