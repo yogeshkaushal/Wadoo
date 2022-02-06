@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
   Platform,
+  ImageBackground,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
@@ -19,10 +20,14 @@ import {
 import storage from '@react-native-firebase/storage';
 import ImagePicker from 'react-native-image-crop-picker';
 import LoadingComponent from '../reuse/LoadingComponent';
+import {SettingsIcon} from '../../utils/AppIcons';
+import {useActionSheet} from '@expo/react-native-action-sheet';
+import {showAlert} from '../../utils/Helper';
 
 const ProfileScreen = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const {showActionSheetWithOptions} = useActionSheet();
   const user = useSelector(
     state => state.persistedUser?.savedUserInfo?.userInfo,
   );
@@ -31,6 +36,7 @@ const ProfileScreen = () => {
 
   const onLogOut = async () => {
     try {
+      dispatch(storeUserInfo());
       await GoogleSignin.signOut();
       navigation.reset({
         index: 1,
@@ -77,16 +83,46 @@ const ProfileScreen = () => {
       setLoading(false);
     }
   };
+
+  const onLogoutClick = async () => {
+    const res = await showAlert('Are you sure you want to logout ?', true);
+    if (res) onLogOut();
+  };
+  const onSettingsClick = () => {
+    const options = ['Logout', 'Cancel'];
+    const destructiveButtonIndex = 0;
+    const cancelButtonIndex = 2;
+    showActionSheetWithOptions(
+      {
+        options,
+        cancelButtonIndex,
+        destructiveButtonIndex,
+      },
+      buttonIndex => {
+        if (buttonIndex === 0) {
+          onLogoutClick();
+        }
+      },
+    );
+  };
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ImageBackground
+        blurRadius={7}
+        style={styles.bgImageStyle}
+        source={{uri: imageUrl}}
+      />
       <View style={styles.conatiner}>
-        <TouchableOpacity onPress={onImageClick}>
-          <Image source={{uri: imageUrl}} style={styles.profileStyle} />
-        </TouchableOpacity>
-        <TouchableOpacity onPress={onLogOut} style={styles.logoutButton}>
-          <Text>Logout</Text>
+        <TouchableOpacity onPress={onSettingsClick}>
+          <SettingsIcon height={22} width={22} />
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.imageView} onPress={onImageClick}>
+        <Image source={{uri: imageUrl}} style={styles.profileStyle} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={onLogOut} style={styles.logoutButton}>
+        <Text>Logout</Text>
+      </TouchableOpacity>
       {loading && <LoadingComponent />}
     </SafeAreaView>
   );
@@ -94,9 +130,18 @@ const ProfileScreen = () => {
 
 const styles = StyleSheet.create({
   conatiner: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    flex: 0.8,
+    alignItems: 'flex-end',
+    marginRight: 20,
+    marginTop: 20,
+  },
+  imageView: {
+    position: 'absolute',
+    top: 120,
+    left: 30,
+  },
+  bgImageStyle: {
+    flex: 0.2,
   },
   profileStyle: {
     height: 100,
