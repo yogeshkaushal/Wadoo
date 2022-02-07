@@ -8,6 +8,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 import {persistStore} from 'redux-persist';
 import {WEB_CLIENT_ID, IOS_CLIENT_ID} from '@env';
 import RNBootSplash from 'react-native-bootsplash';
+import {ActionSheetProvider} from '@expo/react-native-action-sheet';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you\n're using an old API with gesture components, check out new Gestures system!",
@@ -33,11 +34,13 @@ const App = () => {
   };
   let persistor = persistStore(store);
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        <RouteNavigator />
-      </PersistGate>
-    </Provider>
+    <ActionSheetProvider>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          <RouteNavigator />
+        </PersistGate>
+      </Provider>
+    </ActionSheetProvider>
   );
 };
 

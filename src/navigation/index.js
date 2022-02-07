@@ -120,8 +120,7 @@ const RouteNavigator = () => {
           name="BookDetailScreen"
           component={BookDetailScreen}
           options={{
-            headerTitle: 'Details',
-            headerBackTitleVisible: false,
+            headerShown: false,
           }}
         />
         <Stack.Screen
@@ -129,13 +128,6 @@ const RouteNavigator = () => {
           component={MovieDetailScreen}
           options={{
             headerShown: false,
-            headerStyle: {
-              backgroundColor: config.colors.primaryColor,
-            },
-            headerTintColor: 'white',
-            headerShadowVisible: false,
-            headerTitle: '',
-            headerBackTitleVisible: false,
           }}
         />
       </Stack.Navigator>

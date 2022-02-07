@@ -26,6 +26,7 @@ const LoginScreen = () => {
     const usersRef = firestore().collection(collections.USERS).doc(userInfo.id);
 
     const docSnapshot = await usersRef.get();
+    dispatch(storeUserInfo(docSnapshot.data()));
     if (!docSnapshot.exists) {
       usersRef
         .set({
@@ -54,7 +55,7 @@ const LoginScreen = () => {
 
       if (userInfo) {
         storeUserDataCloud(userInfo?.user);
-        dispatch(storeUserInfo(userInfo.user));
+
         setLoading(false);
       }
 
