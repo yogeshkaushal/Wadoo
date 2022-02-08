@@ -15,25 +15,49 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import AuthLoading from '../components/screens/AuthLoading';
 import config from '../utils/Config';
-import HomeIcon from '../assets/icons/ic_home.svg';
-import AddPostIcon from '../assets/icons/ic_bottom_add.svg';
-import ProfileIcon from '../assets/icons/ic_profile.svg';
+import HomeIconInactive from '../assets/icons/ic_home_inactive.svg';
+import HomeIconActive from '../assets/icons/ic_home_active.svg';
+import CreatePostInactive from '../assets/icons/ic_create_post_inactive.svg';
+import CreatePostActive from '../assets/icons/ic_create_post_active.svg';
+import NotificationInactive from '../assets/icons/ic_notification_inactive.svg';
+import NotificationActive from '../assets/icons/ic_notification_active.svg';
+import ProfileActive from '../assets/icons/ic_profile_active.svg';
+import ProfileInactive from '../assets/icons/ic_profile_inactive.svg';
 import {moderateScale} from 'react-native-size-matters';
 import NotifyPeople from '../components/screens/NotifyPeople';
+import {BlurView} from '@react-native-community/blur';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 LogBox.ignoreAllLogs();
 
-const screenOptions = (route, color) => {
+const screenOptions = (route, color, focused) => {
   switch (route.name) {
     case 'Explore':
-      return <HomeIcon style={{marginTop: moderateScale(8)}} />;
+      return focused ? (
+        <HomeIconActive style={styles.tabIconMargin} />
+      ) : (
+        <HomeIconInactive style={styles.tabIconMargin} />
+      );
     case 'Recommend':
-      return <AddPostIcon />;
+      return focused ? (
+        <CreatePostActive style={styles.tabIconMargin} />
+      ) : (
+        <CreatePostInactive style={styles.tabIconMargin} />
+      );
+    case 'Notification':
+      return focused ? (
+        <NotificationActive style={styles.tabIconMargin} />
+      ) : (
+        <NotificationInactive style={styles.tabIconMargin} />
+      );
     case 'Profile':
-      return <ProfileIcon style={{marginTop: moderateScale(8)}} />;
+      return focused ? (
+        <ProfileActive style={styles.tabIconMargin} />
+      ) : (
+        <ProfileInactive style={styles.tabIconMargin} />
+      );
     default:
       return;
   }
@@ -45,17 +69,25 @@ const TabNavigator = () => {
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
-        tabBarIcon: ({color}) => screenOptions(route, color),
+        tabBarIcon: ({color, focused}) => screenOptions(route, color, focused),
         tabBarLabel: '',
         tabBarStyle: {
           borderTopWidth: 0,
-          backgroundColor: 'black',
+          backgroundColor: 'transparent',
           position: 'absolute',
         },
+        tabBarBackground: () => (
+          <BlurView
+            blurType="dark"
+            blurAmount={100}
+            style={StyleSheet.absoluteFill}
+          />
+        ),
       })}
       sceneContainerStyle={styles.tabContainer}>
       <Tab.Screen name="Explore" component={ExploreScreen} />
       <Tab.Screen name="Recommend" component={CreatePostScreen} />
+      <Tab.Screen name="Notification" component={ExploreScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );
@@ -138,6 +170,9 @@ const RouteNavigator = () => {
 const styles = StyleSheet.create({
   tabContainer: {
     backgroundColor: config.colors.primaryColor,
+  },
+  tabIconMargin: {
+    marginTop: moderateScale(8),
   },
 });
 

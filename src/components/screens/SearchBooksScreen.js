@@ -14,7 +14,7 @@ import {
 import {moderateScale} from 'react-native-size-matters';
 import {getBooksByName} from '../../queries/Search';
 import {useNavigation} from '@react-navigation/core';
-import Icon from '../../assets/icons/ic_profile.svg';
+import Icon from '../../assets/icons/ic_profile_inactive.svg';
 import config from '../../utils/Config';
 
 let timer = 0;

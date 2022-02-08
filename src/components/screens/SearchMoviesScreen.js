@@ -15,7 +15,7 @@ import {
 import {moderateScale} from 'react-native-size-matters';
 import {getMovies} from '../../queries/Search';
 import config from '../../utils/Config';
-import Icon from '../../assets/icons/ic_profile.svg';
+import Icon from '../../assets/icons/ic_profile_inactive.svg';
 import {capitalizeFirstLetter} from '../../utils/Helper';
 
 let timer = 0;
