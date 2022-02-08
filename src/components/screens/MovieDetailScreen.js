@@ -5,7 +5,6 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  TouchableOpacity,
   Image,
   Text,
   ImageBackground,
@@ -43,7 +42,6 @@ const MovieDetailScreen = ({navigation}) => {
   }
 
   const onRecommendationClick = () => {
-    navigation.navigate('NotifyPeople', {movieDetails});
   };
 
   return (
@@ -115,6 +113,17 @@ const MovieDetailScreen = ({navigation}) => {
 };
 
 const styles = StyleSheet.create({
+  overlay: {
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  modalContainer: {
+    backgroundColor: 'white',
+    paddingTop: 12,
+    borderTopRightRadius: 12,
+    borderTopLeftRadius: 12,
+  },
   conatiner: {
     flexGrow: 1,
   },
@@ -162,52 +171,13 @@ const styles = StyleSheet.create({
   descriptionBox: {
     marginVertical: moderateScale(10),
   },
-  upperContainerStyle: {
-    backgroundColor: 'white',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    borderRadius: moderateScale(8),
-    padding: moderateScale(10),
-    marginVertical: moderateScale(10),
-    width: '95%',
-  },
-  imageStyle: {
-    borderRadius: moderateScale(8),
-    backgroundColor: 'rgba(255, 87, 51,0.2 )',
-    width: moderateScale(100),
-    height: moderateScale(140),
-  },
-  titleView: {
-    flex: 1,
-    paddingHorizontal: moderateScale(10),
-  },
   subTextStyle: {
     marginVertical: 3,
     color: config.colors.subTextColor,
     fontSize: moderateScale(14),
   },
-  rating: {
-    color: '#FFBC01',
-    fontWeight: 'bold',
-  },
   bottomContainer: {
     padding: moderateScale(20),
-  },
-  description: {
-    color: 'grey',
-    textAlign: 'auto',
-    lineHeight: 23,
-    fontSize: moderateScale(16),
-  },
-  recommendationButton: {
-    width: '95%',
-    backgroundColor: '#FFBC01',
-    marginVertical: moderateScale(10),
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    padding: moderateScale(15),
-    borderRadius: moderateScale(8),
   },
 });
 
