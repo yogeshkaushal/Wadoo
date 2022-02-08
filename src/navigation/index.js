@@ -78,7 +78,7 @@ const TabNavigator = () => {
         },
         tabBarBackground: () => (
           <BlurView
-            blurType="dark"
+            blurType="thinMaterialDark"
             blurAmount={100}
             style={StyleSheet.absoluteFill}
           />

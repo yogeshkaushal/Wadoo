@@ -120,9 +120,6 @@ const ProfileScreen = () => {
       <TouchableOpacity style={styles.imageView} onPress={onImageClick}>
         <Image source={{uri: imageUrl}} style={styles.profileStyle} />
       </TouchableOpacity>
-      <TouchableOpacity onPress={onLogOut} style={styles.logoutButton}>
-        <Text>Logout</Text>
-      </TouchableOpacity>
       {loading && <LoadingComponent />}
     </SafeAreaView>
   );

@@ -32,6 +32,7 @@ const MovieDetailScreen = ({navigation}) => {
     const result = await getMovieDetails(route.params?.movieId);
 
     if (result.status === 200) {
+      console.log(result.data);
       setMovieDetails(result.data);
       setLoading(false);
     }
@@ -41,8 +42,7 @@ const MovieDetailScreen = ({navigation}) => {
     return <LoadingComponent />;
   }
 
-  const onRecommendationClick = () => {
-  };
+  const onRecommendationClick = () => {};
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
