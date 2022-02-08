@@ -75,7 +75,6 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(17),
   },
   bottomContainer: {
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
