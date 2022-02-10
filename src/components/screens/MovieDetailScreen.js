@@ -1,5 +1,5 @@
 import {useRoute} from '@react-navigation/core';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,6 +8,7 @@ import {
   Image,
   Text,
   ImageBackground,
+  Animated,
 } from 'react-native';
 import {moderateScale} from 'react-native-size-matters';
 import {getMovieDetails} from '../../queries/Search';
@@ -16,13 +17,21 @@ import {Colors} from '../../utils/Constants';
 import LoadingComponent from '../reuse/LoadingComponent';
 import RatingIcon from '../../assets/icons/ic_rating.svg';
 import AppButton from '../reuse/AppButton';
+import {screenHeight} from '../../utils/Helper';
+import NotifyPeopleModal from '../reuse/NotifyPeopleModel';
+import {getAllUsers} from '../../features/slices/userReducerSlice';
 
 const MovieDetailScreen = ({navigation}) => {
+  let translation = useRef(new Animated.Value(screenHeight)).current;
+
   const route = useRoute();
 
   const [movieDetails, setMovieDetails] = useState({});
   const [loading, setLoading] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(false);
   const [isShowMore, setIsShowMore] = useState(true);
+  const [users, setUsers] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     getMovie();
@@ -32,17 +41,56 @@ const MovieDetailScreen = ({navigation}) => {
     const result = await getMovieDetails(route.params?.movieId);
 
     if (result.status === 200) {
-      console.log(result.data);
       setMovieDetails(result.data);
       setLoading(false);
     }
   };
 
+  const onRecommendationClick = () => {
+    getUsers();
+  };
+
+  const getUsers = async () => {
+    try {
+      setLoadingUsers(true);
+      const allUsers = await getAllUsers();
+      setLoadingUsers(false);
+      if (allUsers) {
+        setUsers(allUsers);
+        setIsModalVisible(true);
+      }
+    } catch (error) {
+      setLoadingUsers(false);
+    }
+  };
+
+  const onListItemClick = (item, index) => {
+    const usersCopy = [...users];
+    usersCopy[index].isSelected = !usersCopy[index]?.isSelected;
+    setUsers(usersCopy);
+    setIsModalVisible(false);
+  };
+
+  const getSelectedUsersToken = () => {
+    const userCopy = [...users];
+    const selectedContacts = userCopy.filter(
+      item => item?.isSelected && item?.deviceToken,
+    );
+    console.log(selectedContacts);
+  };
+
+  const onConfirmClick = () => {
+    getSelectedUsersToken();
+  };
+
+  const onModalClose = () => {
+    setIsModalVisible(false);
+    translation.setValue(new Animated.Value(screenHeight));
+  };
+
   if (loading) {
     return <LoadingComponent />;
   }
-
-  const onRecommendationClick = () => {};
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -108,22 +156,21 @@ const MovieDetailScreen = ({navigation}) => {
         </View>
       </ScrollView>
       <AppButton title="Send Recommendation" onPress={onRecommendationClick} />
+      {isModalVisible && (
+        <NotifyPeopleModal
+          users={users}
+          onCloseModal={onModalClose}
+          onListItemClick={onListItemClick}
+          onConfirmClick={onConfirmClick}
+          isVisible={isModalVisible}
+        />
+      )}
+      {(loadingUsers || loading) && <LoadingComponent />}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  overlay: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
-    flex: 1,
-    justifyContent: 'flex-end',
-  },
-  modalContainer: {
-    backgroundColor: 'white',
-    paddingTop: 12,
-    borderTopRightRadius: 12,
-    borderTopLeftRadius: 12,
-  },
   conatiner: {
     flexGrow: 1,
   },
@@ -138,11 +185,6 @@ const styles = StyleSheet.create({
   ratingBox: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  showMore: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '40%',
   },
   subTitle: {
     color: 'white',
@@ -162,11 +204,6 @@ const styles = StyleSheet.create({
     color: 'white',
     fontFamily: config.fonts.bold,
     fontSize: moderateScale(25),
-  },
-  textStyle: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: 'white',
   },
   descriptionBox: {
     marginVertical: moderateScale(10),

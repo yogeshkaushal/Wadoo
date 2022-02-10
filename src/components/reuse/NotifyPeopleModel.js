@@ -1,54 +1,28 @@
 import {
   StyleSheet,
   Text,
-  View,
   FlatList,
   TouchableOpacity,
-  SafeAreaView,
   TextInput,
   Image,
-  ImageBackground,
   Modal,
+  View,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
-import {getAllUsers} from '../../features/slices/userReducerSlice';
-import LoadingComponent from '../reuse/LoadingComponent';
-import {useRoute} from '@react-navigation/core';
+import React, {useState} from 'react';
 import {Colors} from '../../utils/Constants';
 import AppButton from '../reuse/AppButton';
-import { moderateScale } from 'react-native-size-matters';
-const {grey, white, bgColor, orange} = Colors;
+import {moderateScale} from 'react-native-size-matters';
+import {screenHeight} from '../../utils/Helper';
+const {grey, white, bgColor} = Colors;
 
-const NotifyPeopleModal = ({isVisible}) => {
-  const [loading, setLoading] = useState(false);
+const NotifyPeopleModal = ({
+  users,
+  isVisible,
+  onCloseModal,
+  onListItemClick,
+  onConfirmClick,
+}) => {
   const [caption, setCaption] = useState('');
-  const [users, setUsers] = useState([]);
-  const {params} = useRoute();
-
-  const movieImage = params?.movieDetails?.Poster;
-
-  useEffect(() => {
-    getUsers();
-  }, []);
-
-  const getUsers = async () => {
-    try {
-      setLoading(true);
-      const allUsers = await getAllUsers();
-      setLoading(false);
-      if (allUsers) {
-        return setUsers(allUsers);
-      }
-    } catch (error) {
-      setLoading(false);
-    }
-  };
-
-  const onListItemClick = (item, index) => {
-    const usersCopy = [...users];
-    usersCopy[index].isSelected = !usersCopy[index]?.isSelected;
-    setUsers(usersCopy);
-  };
 
   const userListItem = (item, index) => {
     return (
@@ -61,50 +35,50 @@ const NotifyPeopleModal = ({isVisible}) => {
     );
   };
 
-  const getSelectedUsersToken = () => {
-    const userCopy = [...users];
-    const selectedContacts = userCopy.filter(
-      item => item?.isSelected && item?.deviceToken,
-    );
-    console.log(selectedContacts);
-  };
-
-  const onConfirmClick = () => {
-    getSelectedUsersToken();
-  };
-
   return (
-    <Modal visible={isVisible} transparent={true}>
-      <View style={styles.bottomStyle}>
-        <Text style={styles.notify}>Notify Friends</Text>
-        <Text style={styles.subHeading}>
-          Select the friends you want to notify
-        </Text>
-        <FlatList
-          style={styles.listStyle}
-          data={users}
-          renderItem={({item, index}) => userListItem(item, index)}
-        />
-        <TextInput
-          selectionColor={white}
-          style={styles.inputStyle}
-          placeholderTextColor={grey}
-          onChangeText={text => setCaption(text)}
-          value={caption}
-          placeholder="Write something here..."
-        />
-        <AppButton
-          onPress={onConfirmClick}
-          style={styles.buttonStyle}
-          title="Confirm and Post"
-        />
-      </View>
-      {loading && <LoadingComponent />}
+    <Modal animationType="slide" visible={isVisible} transparent={true}>
+      <TouchableOpacity
+        onPress={onCloseModal}
+        activeOpacity={1}
+        style={styles.globalTouch}>
+        <View style={styles.bottomStyle}>
+          <Text style={styles.notify}>Notify Friends</Text>
+          <Text style={styles.subHeading}>
+            Select the friends you want to notify
+          </Text>
+          {users?.length > 0 ? (
+            <>
+              <FlatList
+                style={styles.listStyle}
+                data={users}
+                renderItem={({item, index}) => userListItem(item, index)}
+              />
+              <TextInput
+                selectionColor={white}
+                style={styles.inputStyle}
+                placeholderTextColor={grey}
+                onChangeText={text => setCaption(text)}
+                value={caption}
+                placeholder="Write something here..."
+              />
+              <AppButton
+                onPress={onConfirmClick}
+                style={styles.buttonStyle}
+                title="Confirm and Post"
+              />
+            </>
+          ) : (
+            <View style={styles.placeholderContainer}>
+              <Text style={[styles.notify, styles.noUserFound]}>
+                No Users Found
+              </Text>
+            </View>
+          )}
+        </View>
+      </TouchableOpacity>
     </Modal>
   );
 };
-
-export default NotifyPeopleModal;
 
 const styles = StyleSheet.create({
   container: {
@@ -152,7 +126,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   listStyle: {
-    marginTop: 20,
+    marginTop: moderateScale(20),
+    maxHeight: moderateScale(screenHeight / 2.5),
   },
   notify: {
     color: white,
@@ -160,11 +135,21 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
   bottomStyle: {
-    flex: 1,
     borderTopRightRadius: moderateScale(30),
     borderTopLeftRadius: moderateScale(30),
     paddingHorizontal: moderateScale(20),
     paddingVertical: moderateScale(30),
     backgroundColor: bgColor,
   },
+  globalTouch: {
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    flex: 1,
+    justifyContent: 'flex-end',
+  },
+  noUserFound: {
+    alignSelf: 'center',
+    marginVertical: moderateScale(30),
+  },
 });
+
+export default NotifyPeopleModal;

@@ -24,7 +24,6 @@ import NotificationActive from '../assets/icons/ic_notification_active.svg';
 import ProfileActive from '../assets/icons/ic_profile_active.svg';
 import ProfileInactive from '../assets/icons/ic_profile_inactive.svg';
 import {moderateScale} from 'react-native-size-matters';
-import NotifyPeople from '../components/screens/NotifyPeople';
 import {BlurView} from '@react-native-community/blur';
 
 const Stack = createStackNavigator();
@@ -129,11 +128,6 @@ const RouteNavigator = () => {
             headerTitle: '',
             headerBackTitleVisible: false,
           }}
-        />
-        <Stack.Screen
-          name="NotifyPeople"
-          component={NotifyPeople}
-          options={{headerShown: false}}
         />
         <Stack.Screen
           name="SearchMoviesScreen"

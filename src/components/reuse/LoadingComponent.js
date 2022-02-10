@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     height: screenHeight,
   },
   activityIndicator: {
-    top: screenHeight / 2.7,
+    top: screenHeight / 2,
   },
 });
 
