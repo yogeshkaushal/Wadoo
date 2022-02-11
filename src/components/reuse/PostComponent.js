@@ -22,7 +22,7 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
       style={styles.outerPostView}
       onPress={onClickPost}>
       <ImageBackground
-        source={{uri: data?.image}}
+        source={{uri: data?.movie?.Poster}}
         resizeMode="cover"
         blurRadius={3}
         style={styles.imageBackground}>
@@ -31,24 +31,24 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
           locations={[0, 0.6, 1]}
           style={styles.gradientBox}>
           <Image
-            source={{uri: data?.image}}
+            source={{uri: data?.movie?.Poster}}
             resizeMode="contain"
             style={styles.movieStyle}
           />
         </LinearGradient>
         <View style={styles.usernameContainer}>
           <Image
-            source={{uri: data?.image}}
+            source={{uri: data?.creator?.photo}}
             resizeMode="cover"
             style={styles.userImageStyle}
           />
           <Text numberOfLines={1} style={styles.usernameText}>
-            Yogesh Kaushal
+            {data?.creator?.name}
           </Text>
         </View>
         <View style={styles.movieNameContainer}>
           <Text numberOfLines={1} style={styles.movieNameText}>
-            Blacklist
+            {data?.movie?.Title}
           </Text>
           <View style={styles.ratingBox}>
             <RatingIcon
@@ -56,7 +56,11 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
               height={12}
               style={{marginRight: moderateScale(5)}}
             />
-            <Text style={styles.subTextStyle}>3.4</Text>
+            <Text style={styles.subTextStyle}>
+              {data?.movie?.Ratings?.length > 0
+                ? data?.movie?.Ratings[0].Value
+                : ' Not Available'}
+            </Text>
           </View>
         </View>
       </ImageBackground>
@@ -65,15 +69,16 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
           <TouchableOpacity onPress={onClickLike} style={styles.iconClick}>
             <LikeIcon width={23} height={23} />
           </TouchableOpacity>
-          <Text style={styles.likesText}>343 likes</Text>
+          <Text style={styles.likesText}>{data?.likes} likes</Text>
           <TouchableOpacity onPress={onShare} style={styles.iconClick}>
             <ShareIcon width={23} height={23} />
           </TouchableOpacity>
         </View>
-        <Text numberOfLines={3} style={styles.subTextStyle}>
-          Best movie to watch in the free time so far after a decade. please do
-          watch this movie and recommend others too.
-        </Text>
+        {data?.caption ? (
+          <Text numberOfLines={3} style={styles.subTextStyle}>
+            {data.caption}
+          </Text>
+        ) : null}
       </View>
     </TouchableOpacity>
   );

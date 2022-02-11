@@ -93,6 +93,7 @@ const MovieDetailScreen = ({navigation}) => {
         creator: user,
         taggedUsers: selectedContacts,
         caption: caption.trim(),
+        likes: 0,
       })
       .then(() => {
         setLoadingUsers(false);

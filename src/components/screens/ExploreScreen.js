@@ -1,38 +1,57 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, SafeAreaView, FlatList} from 'react-native';
 import config from '../../utils/Config';
 import PostComponent from '../reuse/PostComponent';
 import AppIcon from '../../assets/icons/ic_app_icon.svg';
 import {moderateScale} from 'react-native-size-matters';
+import firestore from '@react-native-firebase/firestore';
+import collections from '../../utils/collectionConstants';
+import LoadingComponent from '../reuse/LoadingComponent';
+import {useNavigation} from '@react-navigation/core';
 
 const ExploreScreen = () => {
-  const data = [
-    {
-      image:
-        'https://m.media-amazon.com/images/M/MV5BMjA0MDc1NTk0Ml5BMl5BanBnXkFtZTgwMTk2ODA5NDM@._V1_SX300.jpg',
-    },
-    {
-      image:
-        'https://m.media-amazon.com/images/M/MV5BMTg2MTMyMzU0M15BMl5BanBnXkFtZTgwOTU3ODk4NTE@._V1_SX300.jpg',
-    },
-    {
-      image:
-        'https://m.media-amazon.com/images/M/MV5BMjA0MDc1NTk0Ml5BMl5BanBnXkFtZTgwMTk2ODA5NDM@._V1_SX300.jpg',
-    },
-  ];
+  const navigation = useNavigation();
+  const recommendationsRef = firestore().collection(
+    collections.RECOMMENDATIONS,
+  );
+
+  const [loading, setLoading] = useState(true);
+  const [allPosts, setAllPost] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    getRecommendedPosts();
+  }, []);
+
+  const getRecommendedPosts = async () => {
+    const docSnapshot = await recommendationsRef.get();
+
+    setLoading(false);
+    setAllPost(docSnapshot.docs);
+  };
+
+  const onClickPost = post => {
+    navigation.navigate('MovieDetailScreen', {movieId: post?.movie?.imdbID});
+  };
 
   const renderItem = (item, index) => {
-    return <PostComponent data={item} />;
+    return (
+      <PostComponent
+        data={item?.data()}
+        onClickPost={() => onClickPost(item?.data())}
+      />
+    );
   };
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <AppIcon style={styles.icon} width={25} height={25} />
       <FlatList
-        data={data}
-        extraData={data}
+        data={allPosts}
+        extraData={allPosts}
         renderItem={({item, index}) => renderItem(item, index)}
       />
+      {loading && <LoadingComponent />}
     </SafeAreaView>
   );
 };

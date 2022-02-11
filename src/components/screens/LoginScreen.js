@@ -34,6 +34,19 @@ const LoginScreen = () => {
 
     const docSnapshot = await usersRef.get();
     dispatch(storeUserInfo(docSnapshot.data()));
+
+    if (docSnapshot.exists) {
+      setLoading(false);
+      navigation.reset({
+        index: 1,
+        routes: [
+          {
+            name: 'Tabs',
+          },
+        ],
+      });
+    }
+
     if (!docSnapshot.exists) {
       usersRef
         .set({
