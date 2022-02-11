@@ -3,6 +3,11 @@ const url = {
   OMDB_API_BASE_URL: 'https://www.omdbapi.com/?apikey=',
 };
 
+export const types = {
+  BOOK: 'book',
+  MOVIE: 'movie',
+};
+
 export const Colors = {
   white: 'white',
   grey: '#767676',

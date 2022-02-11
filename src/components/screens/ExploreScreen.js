@@ -8,6 +8,7 @@ import firestore from '@react-native-firebase/firestore';
 import collections from '../../utils/collectionConstants';
 import LoadingComponent from '../reuse/LoadingComponent';
 import {useNavigation} from '@react-navigation/core';
+import {types} from '../../utils/Constants';
 
 const ExploreScreen = () => {
   const navigation = useNavigation();
@@ -31,7 +32,13 @@ const ExploreScreen = () => {
   };
 
   const onClickPost = post => {
-    navigation.navigate('MovieDetailScreen', {movieId: post?.movie?.imdbID});
+    if (post?.details?.type === types.MOVIE) {
+      navigation.navigate('MovieDetailScreen', {movieId: post?.details?.id});
+    } else {
+      navigation.navigate('BookDetailScreen', {
+        bookDetails: post?.details?.bookDetails,
+      });
+    }
   };
 
   const renderItem = (item, index) => {

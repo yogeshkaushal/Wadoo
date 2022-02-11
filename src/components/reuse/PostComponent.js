@@ -22,7 +22,7 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
       style={styles.outerPostView}
       onPress={onClickPost}>
       <ImageBackground
-        source={{uri: data?.movie?.Poster}}
+        source={{uri: data?.details?.cover}}
         resizeMode="cover"
         blurRadius={3}
         style={styles.imageBackground}>
@@ -31,7 +31,7 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
           locations={[0, 0.6, 1]}
           style={styles.gradientBox}>
           <Image
-            source={{uri: data?.movie?.Poster}}
+            source={{uri: data?.details?.cover}}
             resizeMode="contain"
             style={styles.movieStyle}
           />
@@ -48,7 +48,7 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
         </View>
         <View style={styles.movieNameContainer}>
           <Text numberOfLines={1} style={styles.movieNameText}>
-            {data?.movie?.Title}
+            {data?.details?.title}
           </Text>
           <View style={styles.ratingBox}>
             <RatingIcon
@@ -56,11 +56,7 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
               height={12}
               style={{marginRight: moderateScale(5)}}
             />
-            <Text style={styles.subTextStyle}>
-              {data?.movie?.Ratings?.length > 0
-                ? data?.movie?.Ratings[0].Value
-                : ' Not Available'}
-            </Text>
+            <Text style={styles.subTextStyle}>{data?.details?.rating}</Text>
           </View>
         </View>
       </ImageBackground>

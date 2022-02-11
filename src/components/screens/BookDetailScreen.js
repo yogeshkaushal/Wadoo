@@ -15,21 +15,96 @@ import AppButton from '../reuse/AppButton';
 import {useNavigation} from '@react-navigation/core';
 import RatingIcon from '../../assets/icons/ic_rating.svg';
 import config from '../../utils/Config';
-import { Colors } from '../../utils/Constants';
+import {Colors, types} from '../../utils/Constants';
+import firestore from '@react-native-firebase/firestore';
+import {useSelector} from 'react-redux';
+import collections from '../../utils/collectionConstants';
+import {getAllUsers} from '../../features/slices/userReducerSlice';
+import NotifyPeopleModal from '../reuse/NotifyPeopleModel';
+import LoadingComponent from '../reuse/LoadingComponent';
 
 const BookDetailScreen = () => {
   const route = useRoute();
-  const navigation = useNavigation();
-  console.log(route.params?.bookDetails);
+
+  const recommendationsRef = firestore().collection(
+    collections.RECOMMENDATIONS,
+  );
+
+  const user = useSelector(
+    state => state.persistedUser?.savedUserInfo?.userInfo,
+  );
 
   const [bookDetails, setBookDetails] = useState(route.params?.bookDetails);
   const [isShowMore, setIsShowMore] = useState(true);
+  const [loadingUsers, setLoadingUsers] = useState(false);
+  const [users, setUsers] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
-  const onRecommendationClick = () => {
-    navigation.navigate('NotifyPeople', {bookDetails});
+  const data = {
+    type: types.BOOK,
+    rating: bookDetails?.volumeInfo?.averageRating || ' Not Available',
+    cover: bookDetails?.volumeInfo?.imageLinks?.thumbnail,
+    title: bookDetails?.volumeInfo?.title,
+    id: bookDetails?.id,
+    bookDetails: route.params?.bookDetails,
   };
 
-  console.log(bookDetails);
+  const onRecommendationClick = () => {
+    getUsers();
+  };
+
+  const getUsers = async () => {
+    try {
+      setLoadingUsers(true);
+      const allUsers = await getAllUsers();
+      setLoadingUsers(false);
+      if (allUsers) {
+        setUsers(allUsers);
+        setIsModalVisible(true);
+      }
+    } catch (error) {
+      setLoadingUsers(false);
+    }
+  };
+
+  const onListItemClick = (item, index) => {
+    const usersCopy = [...users];
+    usersCopy[index].isSelected = !usersCopy[index]?.isSelected;
+    setUsers(usersCopy);
+  };
+
+  const getSelectedUsersToken = caption => {
+    const userCopy = [...users];
+    const selectedContacts = userCopy.filter(
+      item => item?.isSelected && item?.deviceToken,
+    );
+
+    recommendationsRef
+      .add({
+        details: {...data},
+        creator: user,
+        taggedUsers: selectedContacts,
+        caption: caption.trim(),
+        likes: 0,
+      })
+      .then(() => {
+        setLoadingUsers(false);
+        setIsModalVisible(false);
+      })
+      .catch(error => {
+        setLoadingUsers(false);
+        console.log(error);
+      });
+  };
+
+  const onConfirmClick = caption => {
+    setLoadingUsers(true);
+    getSelectedUsersToken(caption);
+  };
+
+  const onModalClose = () => {
+    setIsModalVisible(false);
+  };
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -98,6 +173,16 @@ const BookDetailScreen = () => {
         </View>
       </ScrollView>
       <AppButton title="Send Recommendation" onPress={onRecommendationClick} />
+      {isModalVisible && (
+        <NotifyPeopleModal
+          users={users}
+          onCloseModal={onModalClose}
+          onListItemClick={onListItemClick}
+          onConfirmClick={text => onConfirmClick(text)}
+          isVisible={isModalVisible}
+        />
+      )}
+      {loadingUsers && <LoadingComponent />}
     </SafeAreaView>
   );
 };

@@ -13,11 +13,10 @@ import {
 import {moderateScale} from 'react-native-size-matters';
 import {getMovieDetails} from '../../queries/Search';
 import config from '../../utils/Config';
-import {Colors} from '../../utils/Constants';
+import {Colors, types} from '../../utils/Constants';
 import LoadingComponent from '../reuse/LoadingComponent';
 import RatingIcon from '../../assets/icons/ic_rating.svg';
 import AppButton from '../reuse/AppButton';
-import {screenHeight} from '../../utils/Helper';
 import NotifyPeopleModal from '../reuse/NotifyPeopleModel';
 import {getAllUsers} from '../../features/slices/userReducerSlice';
 import firestore from '@react-native-firebase/firestore';
@@ -25,8 +24,6 @@ import collections from '../../utils/collectionConstants';
 import {useSelector} from 'react-redux';
 
 const MovieDetailScreen = ({navigation}) => {
-  let translation = useRef(new Animated.Value(screenHeight)).current;
-
   const recommendationsRef = firestore().collection(
     collections.RECOMMENDATIONS,
   );
@@ -43,6 +40,17 @@ const MovieDetailScreen = ({navigation}) => {
   const [isShowMore, setIsShowMore] = useState(true);
   const [users, setUsers] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const data = {
+    type: types.MOVIE,
+    rating:
+      movieDetails?.Ratings?.length > 0
+        ? movieDetails?.Ratings[0].Value
+        : ' Not Available',
+    cover: movieDetails?.Poster,
+    title: movieDetails?.Title,
+    id: route.params?.movieId,
+  };
 
   useEffect(() => {
     getMovie();
@@ -89,7 +97,7 @@ const MovieDetailScreen = ({navigation}) => {
 
     recommendationsRef
       .add({
-        movie: movieDetails,
+        details: {...data},
         creator: user,
         taggedUsers: selectedContacts,
         caption: caption.trim(),
@@ -112,7 +120,6 @@ const MovieDetailScreen = ({navigation}) => {
 
   const onModalClose = () => {
     setIsModalVisible(false);
-    translation.setValue(new Animated.Value(screenHeight));
   };
 
   return (
