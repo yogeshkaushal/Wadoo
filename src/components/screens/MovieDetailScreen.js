@@ -20,9 +20,20 @@ import AppButton from '../reuse/AppButton';
 import {screenHeight} from '../../utils/Helper';
 import NotifyPeopleModal from '../reuse/NotifyPeopleModel';
 import {getAllUsers} from '../../features/slices/userReducerSlice';
+import firestore from '@react-native-firebase/firestore';
+import collections from '../../utils/collectionConstants';
+import {useSelector} from 'react-redux';
 
 const MovieDetailScreen = ({navigation}) => {
   let translation = useRef(new Animated.Value(screenHeight)).current;
+
+  const recommendationsRef = firestore().collection(
+    collections.RECOMMENDATIONS,
+  );
+
+  const user = useSelector(
+    state => state.persistedUser?.savedUserInfo?.userInfo,
+  );
 
   const route = useRoute();
 
@@ -68,29 +79,40 @@ const MovieDetailScreen = ({navigation}) => {
     const usersCopy = [...users];
     usersCopy[index].isSelected = !usersCopy[index]?.isSelected;
     setUsers(usersCopy);
-    setIsModalVisible(false);
   };
 
-  const getSelectedUsersToken = () => {
+  const getSelectedUsersToken = caption => {
     const userCopy = [...users];
     const selectedContacts = userCopy.filter(
       item => item?.isSelected && item?.deviceToken,
     );
-    console.log(selectedContacts);
+
+    recommendationsRef
+      .add({
+        movie: movieDetails,
+        creator: user,
+        taggedUsers: selectedContacts,
+        caption: caption.trim(),
+      })
+      .then(() => {
+        setLoadingUsers(false);
+        setIsModalVisible(false);
+      })
+      .catch(error => {
+        setLoadingUsers(false);
+        console.log(error);
+      });
   };
 
-  const onConfirmClick = () => {
-    getSelectedUsersToken();
+  const onConfirmClick = caption => {
+    setLoadingUsers(true);
+    getSelectedUsersToken(caption);
   };
 
   const onModalClose = () => {
     setIsModalVisible(false);
     translation.setValue(new Animated.Value(screenHeight));
   };
-
-  if (loading) {
-    return <LoadingComponent />;
-  }
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -161,7 +183,7 @@ const MovieDetailScreen = ({navigation}) => {
           users={users}
           onCloseModal={onModalClose}
           onListItemClick={onListItemClick}
-          onConfirmClick={onConfirmClick}
+          onConfirmClick={text => onConfirmClick(text)}
           isVisible={isModalVisible}
         />
       )}

@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {View, StyleSheet, SafeAreaView, Text, StatusBar} from 'react-native';
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Text,
+  StatusBar,
+  Alert,
+} from 'react-native';
 import {GoogleSignin} from '@react-native-google-signin/google-signin';
 import auth from '@react-native-firebase/auth';
 import {useNavigation} from '@react-navigation/core';
@@ -37,7 +44,19 @@ const LoginScreen = () => {
           deviceToken,
         })
         .then(() => {
-          console.log('User added!');
+          setLoading(false);
+          navigation.reset({
+            index: 1,
+            routes: [
+              {
+                name: 'Tabs',
+              },
+            ],
+          });
+        })
+        .catch(error => {
+          setLoading(false);
+          Alert.alert('Login Failed', 'Something went wrong...');
         });
     }
   };
@@ -55,18 +74,8 @@ const LoginScreen = () => {
 
       if (userInfo) {
         storeUserDataCloud(userInfo?.user);
-
-        setLoading(false);
       }
 
-      navigation.reset({
-        index: 1,
-        routes: [
-          {
-            name: 'Tabs',
-          },
-        ],
-      });
       return auth().signInWithCredential(googleCredential);
     } catch (error) {
       setLoading(false);

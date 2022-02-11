@@ -13,6 +13,10 @@ import {Colors} from '../../utils/Constants';
 import AppButton from '../reuse/AppButton';
 import {moderateScale} from 'react-native-size-matters';
 import {screenHeight} from '../../utils/Helper';
+import SelectedIcon from '../../assets/icons/ic_selected.svg';
+import config from '../../utils/Config';
+import {useSelector} from 'react-redux';
+
 const {grey, white, bgColor} = Colors;
 
 const NotifyPeopleModal = ({
@@ -24,13 +28,22 @@ const NotifyPeopleModal = ({
 }) => {
   const [caption, setCaption] = useState('');
 
+  const user = useSelector(
+    state => state.persistedUser?.savedUserInfo?.userInfo,
+  );
+
   const userListItem = (item, index) => {
+    if (item?.id === user.id) {
+      return;
+    }
+
     return (
       <TouchableOpacity
         onPress={() => onListItemClick(item, index)}
         style={styles.listItemStyle}>
         <Image style={styles.userImageStyle} />
         <Text style={styles.userName}>{item.name}</Text>
+        {item?.isSelected && <SelectedIcon width={18} height={18} />}
       </TouchableOpacity>
     );
   };
@@ -57,12 +70,12 @@ const NotifyPeopleModal = ({
                 selectionColor={white}
                 style={styles.inputStyle}
                 placeholderTextColor={grey}
-                onChangeText={text => setCaption(text)}
+                onChangeText={setCaption}
                 value={caption}
                 placeholder="Write something here..."
               />
               <AppButton
-                onPress={onConfirmClick}
+                onPress={() => onConfirmClick(caption)}
                 style={styles.buttonStyle}
                 title="Confirm and Post"
               />
@@ -96,9 +109,11 @@ const styles = StyleSheet.create({
     color: white,
   },
   userName: {
-    marginLeft: 20,
+    marginLeft: moderateScale(20),
     color: white,
-    fontSize: 14,
+    flex: 1,
+    fontSize: moderateScale(14),
+    fontFamily: config.fonts.regular,
     textTransform: 'capitalize',
   },
   userImageStyle: {
