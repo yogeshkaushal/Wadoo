@@ -10,6 +10,7 @@ import {
   ProfileScreen,
   SearchBooksScreen,
   SearchMoviesScreen,
+  SuccessScreen,
 } from '../components/screens';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -97,10 +98,15 @@ const RouteNavigator = () => {
     <NavigationContainer>
       <StatusBar barStyle="light-content" translucent={true} />
       <Stack.Navigator
-        initialRouteName={'AuthLoading'}
+        // initialRouteName={'AuthLoading'}
         screenOptions={{
           headerTintColor: 'black',
         }}>
+        <Stack.Screen
+          name="SuccessScreen"
+          options={{headerShown: false}}
+          component={SuccessScreen}
+        />
         <Stack.Screen
           name="Login"
           options={{headerShown: false}}
@@ -123,9 +129,12 @@ const RouteNavigator = () => {
             headerStyle: {
               backgroundColor: config.colors.primaryColor,
             },
+            headerTitleStyle: {
+              fontFamily: config.fonts.regular,
+            },
             headerTintColor: 'white',
             headerShadowVisible: false,
-            headerTitle: '',
+            headerTitle: 'Search Books',
             headerBackTitleVisible: false,
           }}
         />
@@ -136,9 +145,12 @@ const RouteNavigator = () => {
             headerStyle: {
               backgroundColor: config.colors.primaryColor,
             },
+            headerTitleStyle: {
+              fontFamily: config.fonts.regular,
+            },
             headerTintColor: 'white',
             headerShadowVisible: false,
-            headerTitle: '',
+            headerTitle: 'Search Movies',
             headerBackTitleVisible: false,
           }}
         />

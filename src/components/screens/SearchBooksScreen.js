@@ -5,7 +5,6 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  TextInput,
   FlatList,
   Image,
   ActivityIndicator,
@@ -14,15 +13,12 @@ import {
 import {moderateScale} from 'react-native-size-matters';
 import {getBooksByName} from '../../queries/Search';
 import {useNavigation} from '@react-navigation/core';
-import Icon from '../../assets/icons/ic_profile_inactive.svg';
 import config from '../../utils/Config';
-
-let timer = 0;
+import SearchBar from '../reuse/SearchBar';
 
 const SearchBooksScreen = () => {
   const navigation = useNavigation();
 
-  const [book, setBook] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
 
@@ -45,15 +41,6 @@ const SearchBooksScreen = () => {
       setLoading(false);
       Alert.alert(error);
     }
-  };
-
-  const debounce = (text, delay) => {
-    setBook(text);
-
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      getAllBooks(text);
-    }, delay);
   };
 
   const onPressItem = item => {
@@ -97,15 +84,10 @@ const SearchBooksScreen = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.conatiner}>
-        <View style={styles.inputContainer}>
-          <Icon style={{marginLeft: moderateScale(5)}} />
-          <TextInput
-            placeholder="Search Books"
-            placeholderTextColor={config.colors.subTextColor}
-            onChangeText={text => debounce(text, 300)}
-            style={styles.textInput}
-          />
-        </View>
+        <SearchBar
+          placeholder="Search Books"
+          onSearch={searchText => getAllBooks(searchText)}
+        />
         {loading ? (
           <ActivityIndicator
             color={config.colors.orangeColor}

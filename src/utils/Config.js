@@ -3,7 +3,7 @@ const config = {
     thinItalic: 'Roboto-ThinItalic',
     black: 'Roboto-Black',
     blackItalic: 'Roboto-BlackItalic',
-    bold: 'Roboto-Bold',
+    bold: 'NunitoSans-Bold',
     boldCondensed: 'Roboto-BoldCondensed',
     boldCondensedItalic: 'Roboto-BoldCondensedItalic',
     boldItalic: 'Roboto-BoldItalic',
@@ -14,7 +14,7 @@ const config = {
     lightItalic: 'Roboto-LightItalic',
     medium: 'Roboto-Medium',
     mediumItalic: 'Roboto-MediumItalic',
-    regular: 'Roboto-Regular',
+    regular: 'NunitoSans-Regular',
     thin: 'Roboto-Thin',
   },
   colors: {

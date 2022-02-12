@@ -69,12 +69,11 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
             <ShareIcon width={23} height={23} />
           </TouchableOpacity>
         </View>
-        {/* {data?.caption ? ( */}
+        {data?.caption ? (
           <Text numberOfLines={3} style={styles.subTextStyle}>
-            {/* {data.caption} */}
-            djkfhkjdsfhsdkfjhsdkjfhkjsdfhkdshkfdhskjfhdsjkfhkdjsfhkjdsfhdsjfkjdshfkjdshfkjdshfhdskjfhdjksfkjdshfksdfhdskhfdskhfkdhsfksdkfjsdhkfhsdkfj
+            {data.caption}
           </Text>
-        {/* ) : null} */}
+        ) : null}
       </View>
     </TouchableOpacity>
   );

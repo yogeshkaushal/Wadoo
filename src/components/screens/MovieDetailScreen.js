@@ -106,6 +106,7 @@ const MovieDetailScreen = ({navigation}) => {
       .then(() => {
         setLoadingUsers(false);
         setIsModalVisible(false);
+        navigation.navigate('SuccessScreen', {type: types.MOVIE});
       })
       .catch(error => {
         setLoadingUsers(false);

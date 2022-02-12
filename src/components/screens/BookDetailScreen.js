@@ -25,6 +25,7 @@ import LoadingComponent from '../reuse/LoadingComponent';
 
 const BookDetailScreen = () => {
   const route = useRoute();
+  const navigation = useNavigation();
 
   const recommendationsRef = firestore().collection(
     collections.RECOMMENDATIONS,
@@ -90,6 +91,7 @@ const BookDetailScreen = () => {
       .then(() => {
         setLoadingUsers(false);
         setIsModalVisible(false);
+        navigation.navigate('SuccessScreen', {type: types.BOOK});
       })
       .catch(error => {
         setLoadingUsers(false);

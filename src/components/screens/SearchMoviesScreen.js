@@ -15,15 +15,15 @@ import {
 import {moderateScale} from 'react-native-size-matters';
 import {getMovies} from '../../queries/Search';
 import config from '../../utils/Config';
-import Icon from '../../assets/icons/ic_profile_inactive.svg';
+import SearchIcon from '../../assets/icons/ic_search.svg';
 import {capitalizeFirstLetter} from '../../utils/Helper';
+import SearchBar from '../reuse/SearchBar';
 
 let timer = 0;
 
 const SearchMoviesScreen = () => {
   const navigation = useNavigation();
 
-  const [movieText, setMovieText] = useState('');
   const [loading, setLoading] = useState(false);
   const [searchResult, setSearchResult] = useState([]);
 
@@ -46,15 +46,6 @@ const SearchMoviesScreen = () => {
       setLoading(false);
       Alert.alert(error);
     }
-  };
-
-  const debounce = (text, delay) => {
-    setMovieText(text);
-
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      getAllMovies(text.trim());
-    }, delay);
   };
 
   const onPressItem = item => {
@@ -89,15 +80,10 @@ const SearchMoviesScreen = () => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <View style={styles.conatiner}>
-        <View style={styles.inputContainer}>
-          <Icon style={{marginLeft: moderateScale(5)}} />
-          <TextInput
-            placeholder="Search Movies"
-            placeholderTextColor={config.colors.subTextColor}
-            onChangeText={text => debounce(text, 300)}
-            style={styles.textInput}
-          />
-        </View>
+        <SearchBar
+          placeholder="Search Movies"
+          onSearch={searchText => getAllMovies(searchText)}
+        />
         {loading ? (
           <ActivityIndicator
             color={config.colors.orangeColor}
@@ -175,8 +161,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#2A2A2A',
     borderRadius: moderateScale(25),
-    marginBottom: moderateScale(10),
-    paddingVertical: moderateScale(5),
+    // marginBottom: moderateScale(10),
+    // paddingVertical: moderateScale(5),
     width: '95%',
     alignSelf: 'center',
     alignItems: 'center',

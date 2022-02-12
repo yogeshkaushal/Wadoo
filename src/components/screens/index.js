@@ -6,6 +6,7 @@ import MovieDetailScreen from './MovieDetailScreen';
 import ProfileScreen from './ProfileScreen';
 import SearchBooksScreen from './SearchBooksScreen';
 import SearchMoviesScreen from './SearchMoviesScreen';
+import SuccessScreen from './SuccessScreen';
 
 export {
   ExploreScreen,
@@ -16,4 +17,5 @@ export {
   SearchMoviesScreen,
   BookDetailScreen,
   MovieDetailScreen,
+  SuccessScreen,
 };
