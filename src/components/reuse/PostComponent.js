@@ -26,16 +26,15 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
         resizeMode="cover"
         blurRadius={3}
         style={styles.imageBackground}>
+        <Image
+          source={{uri: data?.details?.cover}}
+          resizeMode="contain"
+          style={styles.movieStyle}
+        />
         <LinearGradient
           colors={['rgba(0,0,0,0.7)', 'transparent', 'rgba(0,0,0,0.7)']}
-          locations={[0, 0.6, 1]}
-          style={styles.gradientBox}>
-          <Image
-            source={{uri: data?.details?.cover}}
-            resizeMode="contain"
-            style={styles.movieStyle}
-          />
-        </LinearGradient>
+          style={styles.gradientBox}
+        />
         <View style={styles.usernameContainer}>
           <Image
             source={{uri: data?.creator?.photo}}
@@ -70,11 +69,12 @@ const PostComponent = ({data, onClickPost, onClickLike, onShare}) => {
             <ShareIcon width={23} height={23} />
           </TouchableOpacity>
         </View>
-        {data?.caption ? (
+        {/* {data?.caption ? ( */}
           <Text numberOfLines={3} style={styles.subTextStyle}>
-            {data.caption}
+            {/* {data.caption} */}
+            djkfhkjdsfhsdkfjhsdkjfhkjsdfhkdshkfdhskjfhdsjkfhkdjsfhkjdsfhdsjfkjdshfkjdshfkjdshfhdskjfhdjksfkjdshfksdfhdskhfdskhfkdhsfksdkfjsdhkfhsdkfj
           </Text>
-        ) : null}
+        {/* ) : null} */}
       </View>
     </TouchableOpacity>
   );
@@ -136,6 +136,13 @@ const styles = StyleSheet.create({
     marginLeft: moderateScale(7),
     fontSize: moderateScale(19),
     fontFamily: config.fonts.bold,
+  },
+  gradientBox: {
+    position: 'absolute',
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    height: '100%',
+    width: '100%',
   },
   userImageStyle: {
     width: moderateScale(25),
