@@ -98,15 +98,10 @@ const RouteNavigator = () => {
     <NavigationContainer>
       <StatusBar barStyle="light-content" translucent={true} />
       <Stack.Navigator
-        // initialRouteName={'AuthLoading'}
+        initialRouteName={'AuthLoading'}
         screenOptions={{
           headerTintColor: 'black',
         }}>
-        <Stack.Screen
-          name="SuccessScreen"
-          options={{headerShown: false}}
-          component={SuccessScreen}
-        />
         <Stack.Screen
           name="Login"
           options={{headerShown: false}}
@@ -137,6 +132,11 @@ const RouteNavigator = () => {
             headerTitle: 'Search Books',
             headerBackTitleVisible: false,
           }}
+        />
+        <Stack.Screen
+          name="SuccessScreen"
+          options={{headerShown: false}}
+          component={SuccessScreen}
         />
         <Stack.Screen
           name="SearchMoviesScreen"

@@ -27,6 +27,7 @@ const MovieDetailScreen = ({navigation}) => {
   const recommendationsRef = firestore().collection(
     collections.RECOMMENDATIONS,
   );
+  const myPostsRef = firestore().collection(collections.MY_POSTS);
 
   const user = useSelector(
     state => state.persistedUser?.savedUserInfo?.userInfo,
@@ -65,10 +66,7 @@ const MovieDetailScreen = ({navigation}) => {
     }
   };
 
-  const onRecommendationClick = () => {
-    getUsers();
-  };
-
+  //Get list of all the users from firebase
   const getUsers = async () => {
     try {
       setLoadingUsers(true);
@@ -89,20 +87,36 @@ const MovieDetailScreen = ({navigation}) => {
     setUsers(usersCopy);
   };
 
+  //Collect token of all users who are selected to notify
   const getSelectedUsersToken = caption => {
     const userCopy = [...users];
     const selectedContacts = userCopy.filter(
       item => item?.isSelected && item?.deviceToken,
     );
 
+    const movieObj = {
+      details: {...data},
+      creator: user,
+      taggedUsers: selectedContacts,
+      caption: caption.trim(),
+      likes: 0,
+    };
+
     recommendationsRef
-      .add({
-        details: {...data},
-        creator: user,
-        taggedUsers: selectedContacts,
-        caption: caption.trim(),
-        likes: 0,
+      .add(movieObj)
+      .then(() => {
+        saveIntoMyPosts(movieObj);
       })
+      .catch(error => {
+        setLoadingUsers(false);
+        console.log(error);
+      });
+  };
+
+  //Save my created post to my posts
+  const saveIntoMyPosts = movieObj => {
+    myPostsRef
+      .add(movieObj)
       .then(() => {
         setLoadingUsers(false);
         setIsModalVisible(false);
@@ -186,7 +200,7 @@ const MovieDetailScreen = ({navigation}) => {
           </Text>
         </View>
       </ScrollView>
-      <AppButton title="Send Recommendation" onPress={onRecommendationClick} />
+      <AppButton title="Send Recommendation" onPress={getUsers} />
       {isModalVisible && (
         <NotifyPeopleModal
           users={users}

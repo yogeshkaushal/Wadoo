@@ -16,8 +16,9 @@ import {moderateScale} from 'react-native-size-matters';
 import {getMovies} from '../../queries/Search';
 import config from '../../utils/Config';
 import SearchIcon from '../../assets/icons/ic_search.svg';
-import {capitalizeFirstLetter} from '../../utils/Helper';
+import {capitalizeFirstLetter, screenWidth} from '../../utils/Helper';
 import SearchBar from '../reuse/SearchBar';
+import LottieView from 'lottie-react-native';
 
 let timer = 0;
 
@@ -84,6 +85,12 @@ const SearchMoviesScreen = () => {
           placeholder="Search Movies"
           onSearch={searchText => getAllMovies(searchText)}
         />
+        {/* <LottieView
+          source={require('../../assets/json/lf20_aUotIn.json')}
+          style={{width: 50, height: 50, alignSelf: 'center'}}
+          autoPlay
+          loop
+        /> */}
         {loading ? (
           <ActivityIndicator
             color={config.colors.orangeColor}
@@ -167,6 +174,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  animationStyle: {
+    width: screenWidth / 2,
+    backgroundColor: config.colors.primaryColor,
   },
 });
 
