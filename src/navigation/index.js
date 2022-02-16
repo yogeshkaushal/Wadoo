@@ -11,6 +11,7 @@ import {
   SearchBooksScreen,
   SearchMoviesScreen,
   SuccessScreen,
+  NotificationScreen,
 } from '../components/screens';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
@@ -87,7 +88,7 @@ const TabNavigator = () => {
       sceneContainerStyle={styles.tabContainer}>
       <Tab.Screen name="Explore" component={ExploreScreen} />
       <Tab.Screen name="Recommend" component={CreatePostScreen} />
-      <Tab.Screen name="Notification" component={ExploreScreen} />
+      <Tab.Screen name="Notification" component={NotificationScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

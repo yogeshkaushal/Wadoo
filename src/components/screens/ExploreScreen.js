@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, SafeAreaView, FlatList} from 'react-native';
+import {StyleSheet, SafeAreaView, FlatList, View, Text} from 'react-native';
 import config from '../../utils/Config';
 import PostComponent from '../reuse/PostComponent';
 import AppIcon from '../../assets/icons/ic_app_icon.svg';
@@ -52,7 +52,10 @@ const ExploreScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      <AppIcon style={styles.icon} width={25} height={25} />
+      <View style={styles.upperContainer}>
+        <AppIcon style={styles.icon} width={25} height={25} />
+        <Text style={styles.headlineText}>Explore</Text>
+      </View>
       <FlatList
         data={allPosts}
         extraData={allPosts}
@@ -66,15 +69,26 @@ const ExploreScreen = () => {
 const styles = StyleSheet.create({
   conatiner: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  icon: {
-    margin: moderateScale(10),
+    marginHorizontal: moderateScale(10),
+    marginVertical: moderateScale(20),
   },
   safeAreaView: {
     flex: 1,
     backgroundColor: config.colors.primaryColor,
+  },
+  headlineText: {
+    fontFamily: config.fonts.bold,
+    fontSize: moderateScale(25),
+    color: 'white',
+  },
+  upperContainer: {
+    width: '100%',
+    marginVertical: moderateScale(15),
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  icon: {
+    marginHorizontal: moderateScale(10),
   },
   textStyle: {
     fontSize: 30,

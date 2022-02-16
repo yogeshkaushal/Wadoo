@@ -3,6 +3,7 @@ import CreatePostScreen from './CreatePostScreen';
 import ExploreScreen from './ExploreScreen';
 import LoginScreen from './LoginScreen';
 import MovieDetailScreen from './MovieDetailScreen';
+import NotificationScreen from './NotificationScreen';
 import ProfileScreen from './ProfileScreen';
 import SearchBooksScreen from './SearchBooksScreen';
 import SearchMoviesScreen from './SearchMoviesScreen';
@@ -18,4 +19,5 @@ export {
   BookDetailScreen,
   MovieDetailScreen,
   SuccessScreen,
+  NotificationScreen,
 };

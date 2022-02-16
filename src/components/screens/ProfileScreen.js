@@ -23,7 +23,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import LoadingComponent from '../reuse/LoadingComponent';
 import {SettingsIcon} from '../../utils/AppIcons';
 import {useActionSheet} from '@expo/react-native-action-sheet';
-import {screenHeight, showAlert} from '../../utils/Helper';
+import {showAlert} from '../../utils/Helper';
 import {moderateScale} from 'react-native-size-matters';
 import config from '../../utils/Config';
 import PostComponent from '../reuse/PostComponent';
@@ -181,14 +181,14 @@ const ProfileScreen = () => {
         </TouchableOpacity>
       </View>
       <View style={styles.usernameView}>
-        <Text style={styles.usernameText}>Ankit Puri</Text>
-        <Text style={styles.subText}>Ankit Puri</Text>
+        <Text style={styles.usernameText}>{user?.name}</Text>
+        <Text style={styles.subText}>{user?.email.split('@')[0]}</Text>
       </View>
       <FlatList
         data={myPosts}
         extraData={myPosts}
         ListHeaderComponent={ListHeaderComponent}
-        style={{flexGrow: 1}}
+        style={styles.flatlist}
         renderItem={({item, index}) => renderItem(item, index)}
       />
       {loading && <LoadingComponent />}
@@ -197,6 +197,9 @@ const ProfileScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  flatlist: {
+    flexGrow: 1,
+  },
   conatiner: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
